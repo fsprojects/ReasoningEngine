@@ -1,0 +1,93 @@
+﻿{
+module Microsoft.Research.ReasoningEngine.Lexer
+open System
+open Parser
+open FSharp.Text.Lexing
+
+let lexeme lexbuf =
+    LexBuffer<char>.LexemeString lexbuf
+}
+
+// These are some regular expression definitions
+let digit = ['0'-'9']
+let alpha = ['0'-'9' 'a'-'z' 'A'-'Z' '_']
+let whitespace = [' ' '\t'] //note that the comma is treated as a whitespace
+let newline = ('\n' | '\r' | '\r' '\n')
+let comment = ("//" [^'\n']* ('\n' | '\r' | '\r' '\n'))
+
+rule tokenize = parse
+| whitespace	{ tokenize lexbuf }
+| newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }
+| comment		{ lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf }
+
+
+// Keywords
+| "update"	{UPDATE}
+| "if"		{IF}
+| "then"	{THEN}
+| "else"	{ELSE}
+| "card"	{CARD}
+
+
+| "]"			{RSBRA}
+| "["			{LSBRA}
+| "{"			{LBRA}
+| "}"			{RBRA}
+| "("			{ LPAREN }
+| ")"			{ RPAREN }
+| "."			{DOT}
+| "k"			{K}
+| "p"			{P}
+| ","			{COMMA}
+| ":="			{ASSIGN}
+| "~="			{RELATE}
+
+
+//variable scopes
+| "state"		{STATE}
+| "path"		{PATH}
+| "system"		{SYSTEM}
+
+//variable types
+| "int"			{INTT}
+| "nat"			{NATT}
+| "bool"		{BOOLT}
+
+| "unique"      {UNIQUE}
+
+// Logical
+| "true"		{TRUE}
+| "false"		{FALSE}
+| "!"			{NOT}
+| "not"			{NOT}
+| "&"			{AND}
+| "and"			{AND}
+| "|"			{OR}
+| "or"			{OR}
+| "<=>"			{EQUIVALENT}
+| "=>"			{IMPLIES}
+| "implies"		{IMPLIES}
+
+//Comparison
+| ">"			{GT}
+| ">="			{GE}
+| "<"			{LT}
+| "<="			{LE}
+| "="			{EQ}
+
+// Arithmetic
+| "+"			{ PLUS }
+| "-"			{ MINUS }
+| "*"			{MUL}
+
+// Numberic constants
+| digit+		{ INT32 (Int32.Parse(lexeme lexbuf)) }
+
+//Names
+| alpha+		{VAR (lexeme lexbuf)} // Variables
+| '#'alpha+ 	{PATHNAME (lexeme lexbuf)} //Paths
+
+// EOF
+| ";"	{ EOL }
+| eof   { EOF }
+

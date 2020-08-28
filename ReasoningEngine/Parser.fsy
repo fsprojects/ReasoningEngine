@@ -1,0 +1,165 @@
+﻿%{
+open Var
+open Constraint
+open Dynamics
+
+#indent "off"
+
+type Line = 
+	|VarDecl of VarDef
+	|Assert of BExpr
+	|UpdateDecl of Update
+
+and Spec =
+	|Spec of Line list
+%}
+
+%start start
+%token <System.Int32> INT32
+%token <System.Boolean> BOOL
+%token <string> VAR
+%token <string> PATHNAME
+%token EOF EOL
+%token IMPLIES EQUIVALENT
+%token AND OR 
+%token TRUE FALSE
+%token GT GE LT LE EQ
+%token NOT
+%token MUL
+%token PLUS MINUS
+%token LPAREN RPAREN 
+%token STATE PATH SYSTEM
+%token INTT BOOLT NATT
+%token LSBRA RSBRA LBRA RBRA
+%token DOT COMMA
+%token IF THEN ELSE
+%token UPDATE ASSIGN RELATE UNIQUE
+%token P K 
+%token CARD
+
+%nonassoc NOT
+%left AND 
+%left OR
+%left IMPLIES
+%left EQUIVALENT
+%left EQ LT LE GE GT
+%left PLUS
+%left MINUS
+%left MUL 
+
+
+//out type
+%type < Spec > start
+
+%%
+start: Lines {Spec($1)}
+
+Lines:
+	|Line EOL Lines			{ $1::$3 }
+	|Line EOL				{ [$1]   }	    
+
+Line:	
+	|VarDecl							{VarDecl($1)}
+	|BExpr								{Assert($1)}
+	|UPDATE Updates						{UpdateDecl(Update.Create(None,$2))}
+	|UPDATE LBRA BExpr RBRA Updates		{UpdateDecl(Update.Create(Some($3),$5))}
+
+//*************************************************
+//*				MODEL DECLARATION
+//*************************************************
+VarDecl:
+	|Scope Type VAR		        {VarDef.DeclareVar($1,$2,$3)}
+	|UNIQUE Scope Type VAR		{VarDef.DeclareUniqueVar($2,$3,$4)}
+
+Type:
+	|INTT						{Int}
+	|INTT LSBRA INT32 RSBRA		{BInt($3)}
+	|NATT						{Nat}
+	|NATT LSBRA INT32 RSBRA		{BNat($3)}
+	|BOOLT						{Bool}
+
+Scope:
+	| SYSTEM	{System}
+	| PATH		{Path}
+	| STATE		{State}
+//*************************************************
+
+
+//*************************************************
+//*			CONSTRAINTS DECLARATION
+//*************************************************
+
+Expr:
+	|NExpr						{NExpr($1)}
+	|BExpr						{BExpr($1)}	
+
+BTerm: 
+	| CExpr						{BTerm(BComp($1))}
+    | TRUE						{BTerm(BConst(true))}
+	| FALSE						{BTerm(BConst(false))}
+	| LPAREN BExpr RPAREN		{$2}	
+	| Var						{BTerm(BVar($1))}
+
+
+BExprList:
+	| BExpr						{[$1]}
+	| BExpr COMMA BExprList		{$1::$3}
+
+BExpr:
+	| BTerm                     {$1}
+    | BExpr EQUIVALENT BExpr	{Beq($1,$3)}
+	| BExpr IMPLIES BExpr		{Imp($1,$3)}
+    | BExpr AND BExpr			{And($1,$3)}
+    | BExpr OR BExpr			{Or($1,$3)}
+    | NOT BTerm					{Not($2)}	
+	
+CExpr:	
+    |NExpr GT NExpr				{Gt($1,$3)}
+	|NExpr GE NExpr      		{Ge($1,$3)}	
+	|NExpr LT NExpr				{Lt($1,$3)}	
+	|NExpr LE NExpr				{Le($1,$3)}	
+	|NExpr EQ NExpr				{Eq($1,$3)}	
+
+
+NTerm:       
+	| INT32									{NConst($1)}
+	| Var									{NVar($1)}
+	| CARD LPAREN BExprList RPAREN			{Card($3)}
+	| IF BExpr THEN NExpr ELSE NExpr		{Ite($2,$4,$6)}	
+
+NExpr: 
+	| LPAREN NExpr RPAREN				{ $2		  }		
+    | NExpr PLUS  NExpr					{ Add($1, $3) }
+    | NExpr MINUS NExpr					{ Sub($1, $3) }
+    | NExpr MUL NExpr					{ Mul($1, $3) }
+	| MINUS NExpr						{ Neg($2)	  }
+	| NTerm								{ NTerm($1)	  }	
+
+Var:
+	| VAR											{SysVar($1)}
+	| PATHNAME DOT VAR								{PathVar($1,$3)}
+	| P DOT VAR										{AbsPathVar($3)}
+	| PATHNAME LSBRA INT32 RSBRA DOT VAR			{StateVar($1,$3,$6)}
+	| P LSBRA INT32 RSBRA DOT VAR					{AbsPStateVar($3,$6)}
+	| PATHNAME LSBRA K RSBRA DOT VAR				{AbsKStateVar($1,0,$6)}
+	| PATHNAME LSBRA K MINUS INT32 RSBRA DOT VAR	{AbsKStateVar($1,-$5,$8)}		
+	| P LSBRA K RSBRA DOT VAR						{AbsStateVar(0,$6)}
+	| P LSBRA K MINUS INT32 RSBRA DOT VAR			{AbsStateVar(-$5,$8)}
+
+
+//*************************************************
+//*			SYSTEM DYNAMICS
+//*************************************************
+
+Updates:
+	|UpdateR				{ [$1]   }	    
+	|UpdateR COMMA Updates	{ $1::$3 }
+
+
+VarList:
+	| P LSBRA K RSBRA DOT VAR				{[$6]}
+	| P LSBRA K RSBRA DOT VAR COMMA VarList {$6::$8}
+
+UpdateR:	
+	|P LSBRA K RSBRA DOT VAR ASSIGN Expr	{UpdateRule.Create($6,$8)}	
+	|VarList RELATE BExpr					{UpdateRule.CreateRelation($1,$3)}	

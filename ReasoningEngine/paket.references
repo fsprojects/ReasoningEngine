@@ -1,0 +1,10 @@
+﻿group NETSTANDARD
+
+FSharp.Core
+#FsLexYacc.Runtime
+Microsoft.ML.Probabilistic
+Microsoft.ML.Probabilistic.Compiler
+Microsoft.ML.Probabilistic.Learners
+Microsoft.Z3.x64
+
+FsLexYacc.Runtime

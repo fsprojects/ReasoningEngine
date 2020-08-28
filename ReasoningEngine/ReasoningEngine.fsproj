@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Lib.fs" />
+    <Compile Include="Var.fs" />
+    <Compile Include="Constraint.fs" />
+    <Compile Include="Formula.fs" />
+    <Compile Include="Dynamics.fs" />
+    <Compile Include="Parser.fs" />
+    <Compile Include="Lexer.fs" />
+    <Compile Include="Settings.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="Solution.fs" />
+    <Compile Include="Checks.fs" />
+    <Compile Include="Combinator.fs" />
+    <Compile Include="Encodings.fs" />
+    <Compile Include="Transformations.fs" />
+    <Compile Include="Probes.fs" />
+    <Compile Include="Tactics.fs" />
+    <Compile Include="Export.fs" />
+    <Compile Include="Solver.fs" />
+    <Compile Include="Optimizer.fs" />
+    <Compile Include="Inference.fs" />
+    <Compile Include="Equivalence.fs" />
+    <None Include="Parser.fsy" />
+    <None Include="Lexer.fsl" />
+    <Compile Include="Tests.fs" />
+    <None Include="REparser.bat" />
+    <None Include="app.config" />
+    <None Include="paket.references" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

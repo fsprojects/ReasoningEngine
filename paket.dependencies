@@ -1,0 +1,108 @@
+version 5.249.2
+
+group NETSTANDARD
+    source https://api.nuget.org/v3/index.json
+    framework: netstandard2.0
+    redirects: on
+    storage:none
+
+    nuget FSharp.Core ~> 4.7.0 redirects: force 
+
+    nuget FSharp.Collections.ParallelSeq ~> 1.1.2
+
+    nuget MathNet.Numerics >= 4.7.0
+    nuget MathNet.Numerics.FSharp >= 4.7.0
+    nuget MathNet.Symbolics ~> 0.20.0
+
+    nuget Argu 6.0.0
+
+    nuget Newtonsoft.Json = 12.0.2
+
+    nuget BenchmarkDotNet ~> 0.11.4
+
+    nuget Microsoft.Z3.x64 4.8.4
+    nuget Microsoft.ML.Probabilistic >= 0.3.1810.501
+    nuget Microsoft.ML.Probabilistic.Compiler
+    nuget Microsoft.ML.Probabilistic.Learners
+
+    nuget FsLexYacc >= 10.0.0 
+	nuget FsLexYacc.Runtime >= 10.0.0 
+
+    nuget XPlot.Plotly ~> 1.5.0
+
+    nuget SixLabors.ImageSharp 1.0.1
+
+ # This is for IFSharp notebooks
+group NETFRAMEWORK
+
+    source https://api.nuget.org/v3/index.json
+    framework:net472
+    redirects: on
+    storage:none
+
+    nuget FSharp.Core ~> 4.7.0 redirects: force 
+
+    nuget Newtonsoft.Json = 12.0.2
+   
+    nuget FsLexYacc >= 10.0.0 
+	nuget FsLexYacc.Runtime >= 10.0.0 
+
+    nuget Microsoft.Msagl 1.1.3
+    nuget Microsoft.Msagl.Drawing 1.1.3
+
+    nuget XPlot.Plotly ~> 3.0.1
+
+    nuget SixLabors.ImageSharp 1.0.1
+    nuget SixLabors.ImageSharp.Drawing 1.0.0-beta0010
+
+group DOTNETCORE
+
+    source https://api.nuget.org/v3/index.json
+    framework: netcoreapp3.1
+    redirects: on
+    storage:none
+
+    nuget FSharp.Core ~> 4.7.0 redirects: force 
+
+    nuget FSharpIDD >= 0.4.3
+    nuget FSharpIDD.WS >= 0.4.3
+
+    nuget FsPickler >= 5.2.0
+    nuget FsPickler.Json >= 5.2.0
+
+    nuget FsCheck ~> 2.14.0
+    nuget FSharp.Collections.ParallelSeq ~> 1.1.2
+
+    nuget MathNet.Numerics >= 4.7.0
+    nuget MathNet.Numerics.FSharp >= 4.7.0
+    nuget MathNet.Symbolics ~> 0.20.0
+
+    nuget Newtonsoft.Json = 12.0.2
+
+    nuget Argu 6.0.0
+
+    nuget Microsoft.NETCore.App >= 2.2.0
+
+    nuget Expecto ~> 8.13.1
+    nuget Expecto.Diff ~> 8.13.1
+
+
+    nuget BenchmarkDotNet ~> 0.12.0 
+
+    nuget FSharp.Configuration >= 2.0.0-alpha2
+
+
+// [ FAKE GROUP ]
+group Build
+    source https://api.nuget.org/v3/index.json
+    storage:none
+
+    nuget FSharp.Core ~> 4.7.0 redirects: force  // https://github.com/fsharp/FAKE/issues/2001
+    nuget Fake.DotNet.Paket >= 5.20.0
+    nuget Fake.Core.Target >= 5.20.0
+    nuget Fake.Core.Process >= 5.20.0
+    nuget Fake.Core.String >= 5.20.0
+    nuget Fake.IO.FileSystem >= 5.20.0
+    nuget Fake.Tools.Git >= 5.20.0
+    nuget Fake.IO.Zip >= 5.20.0
+    nuget BlackFox.Fake.BuildTask
