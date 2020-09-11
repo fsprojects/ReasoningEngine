@@ -58,7 +58,7 @@ RUN chown -R ${NB_UID} ${HOME}
 USER ${USER}
 
 #Install nteract 
-RUN pip install nteract_on_jupyter
+# RUN pip install nteract_on_jupyter
 
 # Install lastest build from main branch of Microsoft.DotNet.Interactive from myget
 RUN dotnet tool install -g Microsoft.dotnet-interactive --version 1.0.140401 --add-source "https://dotnet.myget.org/F/dotnet-try/api/v3/index.json"
@@ -72,5 +72,5 @@ RUN dotnet interactive jupyter install
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
-# Set root to Notebooks
-WORKDIR ${HOME}/Notebooks/
+# Try running in examples directly
+WORKDIR ./Examples/
