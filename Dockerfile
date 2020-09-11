@@ -54,8 +54,7 @@ COPY ./Examples/ ${HOME}/Notebooks/
 # Copy package sources
 # COPY ./NuGet.config ${HOME}/nuget.config
 
-RUN chown -R ${NB_UID} ${HOME}
-USER ${USER}
+
 
 #Install nteract 
 # RUN pip install nteract_on_jupyter
@@ -73,7 +72,7 @@ RUN dotnet interactive jupyter install
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
-RUN dotnet build REInteractiveAPI/REInteractiveAPI.fsproj
+RUN dotnet build ${HOME}/REInteractiveAPI/REInteractiveAPI.fsproj
 
 COPY ./ReasoningEngine/ ${HOME}/ReasoningEngine/
 COPY ./REInteractiveAPI/ ${HOME}/REInteractiveAPI/
@@ -82,3 +81,6 @@ COPY ./REInteractiveAPI/ ${HOME}/REInteractiveAPI/
 WORKDIR ${HOME}
 
 # Try to build Reasoning Engine
+
+RUN chown -R ${NB_UID} ${HOME}
+USER ${USER}
