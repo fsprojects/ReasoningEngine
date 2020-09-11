@@ -1,7 +1,7 @@
 ﻿module ReasoningEngine
 
-#r @"./bin/Release/netstandard2.0/ReasoningEngine.dll"
-#r @"./bin/Release/netstandard2.0/REInteractiveApi.dll"
+#r @"bin/Release/netstandard2.0/ReasoningEngine.dll"
+#r @"bin/Release/netstandard2.0/REInteractiveAPI.dll"
 
 open Microsoft.Research.RENotebook
 

@@ -76,7 +76,7 @@ ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
 # Try to build Reasoning Engine
 RUN dotnet tool restore
-RUN dotnet build ./REInteractiveAPI/REInteractiveAPI.fsproj
+RUN dotnet build --configuration Release ./REInteractiveAPI/REInteractiveAPI.fsproj
 
 # Try running in examples directly
 WORKDIR ${HOME}
