@@ -28,9 +28,13 @@ group NETSTANDARD
     nuget FsLexYacc >= 10.0.0 
 	nuget FsLexYacc.Runtime >= 10.0.0 
 
-    nuget XPlot.Plotly ~> 1.5.0
+    nuget XPlot.Plotly ~> 3.0.1
+
+    nuget AutomaticGraphLayout 1.1.9
+    nuget AutomaticGraphLayout.Drawing 1.1.9
 
     nuget SixLabors.ImageSharp 1.0.1
+    nuget SixLabors.ImageSharp.Drawing 1.0.0-beta0010
 
  # This is for IFSharp notebooks
 group NETFRAMEWORK
@@ -91,6 +95,7 @@ group DOTNETCORE
 
     nuget FSharp.Configuration >= 2.0.0-alpha2
 
+    
 
 // [ FAKE GROUP ]
 group Build

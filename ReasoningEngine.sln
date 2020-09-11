@@ -7,6 +7,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ReasoningEngine", "Reasonin
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RENotebookApi", "RENotebookApi\RENotebookApi.fsproj", "{48E015FA-61CC-48BF-A8DE-559F3FFFD7C6}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "REInteractiveAPI", "REInteractiveAPI\REInteractiveAPI.fsproj", "{A078A292-7B1E-4064-926A-3CDCC7E81896}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{48E015FA-61CC-48BF-A8DE-559F3FFFD7C6}.Debug|x64.Build.0 = Debug|Any CPU
 		{48E015FA-61CC-48BF-A8DE-559F3FFFD7C6}.Release|x64.ActiveCfg = Release|Any CPU
 		{48E015FA-61CC-48BF-A8DE-559F3FFFD7C6}.Release|x64.Build.0 = Release|Any CPU
+		{A078A292-7B1E-4064-926A-3CDCC7E81896}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A078A292-7B1E-4064-926A-3CDCC7E81896}.Debug|x64.Build.0 = Debug|Any CPU
+		{A078A292-7B1E-4064-926A-3CDCC7E81896}.Release|x64.ActiveCfg = Release|Any CPU
+		{A078A292-7B1E-4064-926A-3CDCC7E81896}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
