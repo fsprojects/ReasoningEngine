@@ -75,7 +75,7 @@ ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 COPY ./ReasoningEngine/ ${HOME}/ReasoningEngine/
 COPY ./REInteractiveAPI/ ${HOME}/REInteractiveAPI/
 
-RUN dotnet build ${HOME}/REInteractiveAPI/REInteractiveAPI.fsproj
+RUN dotnet build ./REInteractiveAPI/REInteractiveAPI.fsproj
 
 # Try running in examples directly
 WORKDIR ${HOME}
