@@ -67,18 +67,17 @@ ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 RUN echo "$PATH"
 
 
-WORKDIR .
-
 # Install kernel specs
 RUN dotnet interactive jupyter install
-
-# Try to build Reasoning Engine
-RUN dotnet build ./REInteractiveAPI/REInteractiveAPI.fsproj
 
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
+COPY ./ReasoningEngine/  ${HOME}/ReasoningEngine/
 COPY ./REInteractiveAPI/  ${HOME}/REInteractiveAPI/
 
 # Try running in examples directly
 WORKDIR ${HOME}
+
+# Try to build Reasoning Engine
+RUN dotnet build ${HOME}/REInteractiveAPI/REInteractiveAPI.fsproj
