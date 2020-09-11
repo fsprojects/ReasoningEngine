@@ -74,8 +74,7 @@ ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
 COPY ./ ${HOME}
 
-RUN ls -l
-
+RUN dotnet tool restore
 RUN dotnet build ./REInteractiveAPI/REInteractiveAPI.fsproj
 
 # Try running in examples directly
