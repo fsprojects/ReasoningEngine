@@ -55,6 +55,7 @@ COPY ./Examples/ ${HOME}/Notebooks/
 # COPY ./NuGet.config ${HOME}/nuget.config
 
 COPY ./ ${HOME}
+
 RUN chown -R ${NB_UID} ${HOME}
 USER ${USER}
 
