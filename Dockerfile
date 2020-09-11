@@ -8,7 +8,7 @@ ENV USER ${NB_USER}
 ENV NB_UID ${NB_UID}
 ENV HOME /home/${NB_USER}
 
-#WORKDIR ${HOME}
+WORKDIR ${HOME}
 
 USER root
 RUN apt-get update
@@ -72,13 +72,11 @@ RUN dotnet interactive jupyter install
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
-WORKDIR .
+COPY ./ ${HOME}
 
 RUN ls -l
 
 RUN dotnet build ./REInteractiveAPI/REInteractiveAPI.fsproj
-
-COPY ./REInteractiveAPI/ ${HOME}/REInteractiveAPI/
 
 # Try running in examples directly
 WORKDIR ${HOME}
