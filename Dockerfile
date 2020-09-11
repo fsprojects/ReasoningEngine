@@ -8,7 +8,7 @@ ENV USER ${NB_USER}
 ENV NB_UID ${NB_UID}
 ENV HOME /home/${NB_USER}
 
-WORKDIR ${HOME}
+#WORKDIR ${HOME}
 
 USER root
 RUN apt-get update
