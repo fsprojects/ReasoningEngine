@@ -73,4 +73,4 @@ RUN dotnet interactive jupyter install
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
 # Try running in examples directly
-WORKDIR ./Examples/
+WORKDIR ${HOME}
