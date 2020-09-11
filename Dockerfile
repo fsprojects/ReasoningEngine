@@ -72,6 +72,8 @@ RUN dotnet interactive jupyter install
 # Enable telemetry once we install jupyter for the image
 ENV DOTNET_TRY_CLI_TELEMETRY_OPTOUT=false
 
+WORKDIR .
+
 RUN dotnet build REInteractiveAPI/REInteractiveAPI.fsproj
 
 COPY ./REInteractiveAPI/ ${HOME}/REInteractiveAPI/
