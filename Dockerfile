@@ -66,6 +66,9 @@ RUN dotnet tool install -g Microsoft.dotnet-interactive --version 1.0.140401 --a
 ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 RUN echo "$PATH"
 
+
+WORKDIR .
+
 # Install kernel specs
 RUN dotnet interactive jupyter install
 
