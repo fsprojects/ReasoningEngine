@@ -52,7 +52,7 @@ RUN dotnet_sdk_version=3.1.301 \
 COPY ./Examples/ ${HOME}/Notebooks/
 
 # Copy package sources
-COPY ./NuGet.config ${HOME}/nuget.config
+# COPY ./NuGet.config ${HOME}/nuget.config
 
 RUN chown -R ${NB_UID} ${HOME}
 USER ${USER}
