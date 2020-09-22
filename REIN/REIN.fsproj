@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Settings.fs" />
+    <Compile Include="Parser.fs" />
+    <Compile Include="Lexer.fs" />
+    <Compile Include="REIN.fs" />
+    <Compile Include="Memoization.fs" />
+    <Compile Include="Regulation.fs" />
+    <Compile Include="Translation.fs" />
+    <Compile Include="Export.fs" />
+    <Compile Include="Procedures.fs" />
+    <Compile Include="OptimalModels.fs" />
+    <Compile Include="InteractionAnalysis.fs" />
+    <Compile Include="RegulationTables.fs" />
+    <Compile Include="Generator.fs" />
+    <None Include="Parser.fsy" />
+    <None Include="Lexer.fsl" />
+    <Compile Include="Tests.fs" />
+    <None Include="app.config" />
+    <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReasoningEngine\ReasoningEngine.fsproj" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
