@@ -1,0 +1,995 @@
+// MODEL Pearson threshold from only those the qpcr data sets that were used in the Science paper
+// REGULATION CONDITIONS Activation is required
+// DYNAMICS Synchronous
+// EXPERIMENTAL OBSERVATIONS The first 23 we describe in the Science paper
+
+// Synchronous dynamics 
+directive updates sync;
+
+// Default regulation conditions
+directive regulation legacy;
+
+LIF[!](0..8); CH[!](0..8); PD[!](0..8); Stat3[!-+](0..8); Tcf3[-+](0..17);
+MEKERK(0..17);	Klf4[!-+](0..8); Gbx2[!-+](0..8); Tfcp2l1[!+-](0..8); Esrrb[!-+](0..8);
+Nanog[!-+](0..8); Klf2[!-+](0..8); Tbx3[!-+](0..8); Sox2[!-+](0..8); Sall4[!-+](0..8); Oct4[!-+](0..8);
+
+LIF		LIF		positive;
+CH		CH		positive;
+PD		PD		positive;
+LIF		Stat3		positive;
+Stat3	Klf4 positive;
+Stat3	Gbx2	positive; 
+Stat3 Tfcp2l1 positive; 
+CH		Tcf3	negative;
+Tcf3 	Tfcp2l1 negative; 
+Tcf3 	Esrrb	negative; 
+PD		MEKERK  negative;
+MEKERK	Nanog	negative;	
+MEKERK	Tcf3 	negative;
+Esrrb Gbx2 positive optional;
+Gbx2 Esrrb positive optional;
+Esrrb Klf2 positive optional;
+Klf2 Esrrb positive optional;
+Esrrb Klf4 positive optional;
+Klf4 Esrrb positive optional;
+Esrrb Oct4 negative optional;
+Oct4 Esrrb negative optional;
+Esrrb Tbx3 positive optional;
+Tbx3 Esrrb positive optional;
+Esrrb Nanog positive optional;
+Nanog Esrrb positive optional;
+Esrrb Sall4 positive optional;
+Sall4 Esrrb positive optional;
+Esrrb Stat3 positive optional;
+Stat3 Esrrb positive optional;
+Esrrb Tcf3 negative optional;
+Tcf3 Esrrb negative optional;
+Esrrb Tfcp2l1 positive optional;
+Tfcp2l1 Esrrb positive optional;
+Gbx2 Klf2 positive optional;
+Klf2 Gbx2 positive optional;
+Gbx2 Klf4 positive optional;
+Klf4 Gbx2 positive optional;
+Gbx2 Oct4 negative optional;
+Oct4 Gbx2 negative optional;
+Gbx2 Tbx3 positive optional;
+Tbx3 Gbx2 positive optional;
+Gbx2 Stat3 positive optional;
+Stat3 Gbx2 positive optional;
+Gbx2 Tcf3 negative optional;
+Tcf3 Gbx2 negative optional;
+Gbx2 Tfcp2l1 positive optional;
+Tfcp2l1 Gbx2 positive optional;
+Klf2 Klf4 positive optional;
+Klf4 Klf2 positive optional;
+Klf2 Oct4 positive optional;
+Oct4 Klf2 positive optional;
+Klf2 Sox2 positive optional;
+Sox2 Klf2 positive optional;
+Klf2 Tbx3 positive optional;
+Tbx3 Klf2 positive optional;
+Klf2 Nanog positive optional;
+Nanog Klf2 positive optional;
+Klf2 Sall4 positive optional;
+Sall4 Klf2 positive optional;
+Klf2 Tcf3 positive optional;
+Tcf3 Klf2 positive optional;
+Klf2 Tfcp2l1 positive optional;
+Tfcp2l1 Klf2 positive optional;
+Klf4 Tbx3 positive optional;
+Tbx3 Klf4 positive optional;
+Klf4 Sall4 positive optional;
+Sall4 Klf4 positive optional;
+Klf4 Stat3 positive optional;
+Stat3 Klf4 positive optional;
+Klf4 Tfcp2l1 positive optional;
+Tfcp2l1 Klf4 positive optional;
+Oct4 Tbx3 positive optional;
+Tbx3 Oct4 positive optional;
+Oct4 Nanog positive optional;
+Nanog Oct4 positive optional;
+Oct4 Sall4 positive optional;
+Sall4 Oct4 positive optional;
+Oct4 Tcf3 positive optional;
+Tcf3 Oct4 positive optional;
+Sox2 Tbx3 positive optional;
+Tbx3 Sox2 positive optional;
+Sox2 Nanog positive optional;
+Nanog Sox2 positive optional;
+Sox2 Sall4 positive optional;
+Sall4 Sox2 positive optional;
+Sox2 Stat3 negative optional;
+Stat3 Sox2 negative optional;
+Sox2 Tcf3 positive optional;
+Tcf3 Sox2 positive optional;
+Tbx3 Nanog positive optional;
+Nanog Tbx3 positive optional;
+Tbx3 Sall4 positive optional;
+Sall4 Tbx3 positive optional;
+Tbx3 Stat3 positive optional;
+Stat3 Tbx3 positive optional;
+Tbx3 Tcf3 negative optional;
+Tcf3 Tbx3 negative optional;
+Tbx3 Tfcp2l1 positive optional;
+Tfcp2l1 Tbx3 positive optional;
+Nanog Sall4 positive optional;
+Sall4 Nanog positive optional;
+Nanog Tcf3 positive optional;
+Tcf3 Nanog positive optional;
+Nanog Tfcp2l1 positive optional;
+Tfcp2l1 Nanog positive optional;
+Sall4 Stat3 positive optional;
+Stat3 Sall4 positive optional;
+Sall4 Tfcp2l1 positive optional;
+Tfcp2l1 Sall4 positive optional;
+Stat3 Tcf3 negative optional;
+Tcf3 Stat3 negative optional;
+
+// Experiment One from 2i plus LIF to 2i
+#ExperimentOne[0] |=  $TwoiPlusLif "Exp1 initial expression pattern";
+#ExperimentOne[0] |=  $TwoiCultureConditions "Exp1 culture conditions";
+#ExperimentOne[0] |=  $NoKnockDowns "Exp1 no knockdowns"; 
+#ExperimentOne[0] |=  $NoOverExpression "Exp1 no overexpression";
+#ExperimentOne[18] |=  $Twoi "Exp1 penultimate state";
+#ExperimentOne[19] |=  $Twoi "Exp1 final state";
+
+// Experiment Two from 2i to 2i plus LIF
+#ExperimentTwo[0] |=  $Twoi "Exp2 initial expression pattern"; 
+#ExperimentTwo[0] |=  $TwoiPlusLifCultureConditions "Exp2 culture conditions";
+#ExperimentTwo[0] |=  $NoKnockDowns "Exp2 no knockdowns"; 
+#ExperimentTwo[0] |=  $NoOverExpression "Exp2 no overexpression";
+#ExperimentTwo[18] |=  $TwoiPlusLif  "Exp2 penultimate state";
+#ExperimentTwo[19] |=  $TwoiPlusLif "Exp2 final state";
+
+
+// Experiment Three from 2i plus LIF to LIF plus PD
+#ExperimentThree[0] |=  $TwoiPlusLif "Exp3 initial expression pattern";
+#ExperimentThree[0] |=  $LifPlusPdCultureConditions "Exp3 culture conditions";
+#ExperimentThree[0] |=  $NoKnockDowns "Exp3 knockdowns"; 
+#ExperimentThree[0] |=  $NoOverExpression "Exp3 no overexpression";
+#ExperimentThree[18] |=  $LifPlusPd  "Exp3 penultimate state";
+#ExperimentThree[19] |=  $LifPlusPd "Exp3 final state";
+
+
+// Experiment Four from LIF plus PD to 2i plus LIF
+#ExperimentFour[0] |=  $LifPlusPd "Exp4 initial expression pattern";
+#ExperimentFour[0] |=  $TwoiPlusLifCultureConditions "Exp4 culture conditions";
+#ExperimentFour[0] |=  $NoKnockDowns "Exp4 no knockdowns"; 
+#ExperimentFour[0] |=  $NoOverExpression "Exp4 no overexpression";
+#ExperimentFour[18] |=  $TwoiPlusLif  "Exp4 penultimate state";
+#ExperimentFour[19] |=  $TwoiPlusLif "Exp4 final state";
+
+
+// Experiment Five from 2i plus LIF to LIF plus CH
+#ExperimentFive[0] |=  $TwoiPlusLif "Exp5 initial expression pattern";
+#ExperimentFive[0] |=  $LifPlusChCultureConditions "Exp5 culture conditions";
+#ExperimentFive[0] |=  $NoKnockDowns "Exp5 no knockdowns";  
+#ExperimentFive[0] |=  $NoOverExpression "Exp5 no overexpression";
+#ExperimentFive[18] |=  $LifPlusCh  "Exp5 penultimate state";
+#ExperimentFive[19] |=  $LifPlusCh "LIF plus CH final state Exp 5";
+
+
+// Experiment Six from LIF plus CH to 2i plus LIF
+#ExperimentSix[0] |=  $LifPlusCh "Exp6 initial expression pattern";
+#ExperimentSix[0] |=  $TwoiPlusLifCultureConditions "Exp6 culture conditions";
+#ExperimentSix[0] |=  $NoKnockDowns "Exp6 no knockdowns";  
+#ExperimentSix[0] |=  $NoOverExpression "Exp6 no overexpression";
+#ExperimentSix[18] |=  $TwoiPlusLif  "Exp6 penultimate state";
+#ExperimentSix[19] |=  $TwoiPlusLif "Exp6 final state";
+
+
+// Experiment Seven from 2i to LIF plus PD
+#ExperimentSeven[0] |=  $Twoi "Exp7 initial expression pattern";
+#ExperimentSeven[0] |=  $LifPlusPdCultureConditions "Exp7 culture conditions";
+#ExperimentSeven[0] |=  $NoKnockDowns "Exp7 no knockdowns";  
+#ExperimentSeven[0] |=  $NoOverExpression "Exp7 no overexpression";
+#ExperimentSeven[18] |=  $LifPlusPd  "Exp7 penultimate state";
+#ExperimentSeven[19] |=  $LifPlusPd "Exp7 final state";
+
+
+// Experiment Eight from LIF plus PD to 2i 
+#ExperimentEight[0] |=  $LifPlusPd "Exp8 initial expression pattern";
+#ExperimentEight[0] |=  $TwoiCultureConditions "Exp8 culture conditions";
+#ExperimentEight[0] |=  $NoKnockDowns "Exp8 no knockdowns";  
+#ExperimentEight[0] |=  $NoOverExpression "Exp8 no overexpression";
+#ExperimentEight[18] |=  $Twoi  "Exp 8 penultimate state";
+#ExperimentEight[19] |=  $Twoi "Exp8 final state";
+
+
+// Experiment Nine from 2i to LIF plus CH
+#ExperimentNine[0] |=  $Twoi "Exp9 initial expression pattern";
+#ExperimentNine[0] |=  $LifPlusChCultureConditions "Exp9 culture conditions";
+#ExperimentNine[0] |=  $NoKnockDowns "Exp9 no knockdowns";  
+#ExperimentNine[0] |=  $NoOverExpression "Exp9 no overexpression";
+#ExperimentNine[18] |=  $LifPlusCh  "Exp9 penultimate state";
+#ExperimentNine[19] |=  $LifPlusCh "Exp9 final state";
+
+// Experiment Ten from LIF plus CH to 2i 
+#ExperimentTen[0] |=  $LifPlusCh "Exp 10 initial expression state";
+#ExperimentTen[0] |=  $TwoiCultureConditions "Exp10 culture conditions";
+#ExperimentTen[0] |=  $NoKnockDowns "Exp10 no knockdowns";  
+#ExperimentTen[0] |=  $NoOverExpression "Exp10 no overexpression";
+#ExperimentTen[18] |=  $Twoi "Exp10 penultimate state";
+#ExperimentTen[19] |=  $Twoi "Exp10 final state";
+
+
+// Experiment Eleven from LIF plus CH to LIF plus PD
+#ExperimentEleven[0] |=  $LifPlusCh "Exp11 initial expression pattern";
+#ExperimentEleven[0] |=  $LifPlusPdCultureConditions "Exp11 culture conditions";
+#ExperimentEleven[0] |=  $NoKnockDowns "Exp11 no knockdowns";  
+#ExperimentEleven[0] |=  $NoOverExpression "Exp11 no overexpression";
+#ExperimentEleven[18] |=  $LifPlusPd  "Exp11 penultimate state";
+#ExperimentEleven[19] |=  $LifPlusPd "Exp11 final state";
+
+
+// Experiment Twelve from LIF plus PD to LIF plus CH
+#ExperimentTwelve[0] |=  $LifPlusPd "Exp12 initial expression pattern";
+#ExperimentTwelve[0] |=  $LifPlusChCultureConditions "Exp12 culture conditions";
+#ExperimentTwelve[0] |=  $NoKnockDowns "Exp12 no knockdowns";  
+#ExperimentTwelve[0] |=  $NoOverExpression "Exp12 no overexpression";
+#ExperimentTwelve[18] |=  $LifPlusCh "Exp12 penultimate state";
+#ExperimentTwelve[19] |=  $LifPlusCh "Exp12 final state";
+
+// Experiment Thirteen from LIF plus 2i to no signal
+#ExperimentThirteen[0] |=  $TwoiPlusLif "Exp12 initial expression pattern";
+#ExperimentThirteen[0] |=  $NoSignalCultureConditions "Exp13 culture conditions";
+#ExperimentThirteen[0] |=  $NoKnockDowns "Exp13 no knockdowns"; 
+#ExperimentThirteen[0] |=  $NoOverExpression "Exp13 no overexpression";
+#ExperimentThirteen[18] |=  $NoSignal "Exp13 penultimate state";
+#ExperimentThirteen[19] |=  $NoSignal "Exp13 final state";
+
+// Experiment Fourteen from 2i to no signal
+#ExperimentFourteen[0] |=  $Twoi "Exp14 initial expression pattern";
+#ExperimentFourteen[0] |=  $NoSignalCultureConditions "Exp14 culture conditions";
+#ExperimentFourteen[0] |=  $NoKnockDowns "Exp14 no knockdowns";  
+#ExperimentFourteen[0] |=  $NoOverExpression "Exp14 no overexpression";
+#ExperimentFourteen[18] |=  $NoSignal "Exp14 penultimate state";
+#ExperimentFourteen[19] |=  $NoSignal "Exp14 final state";
+
+// Experiment Fifteen from LIF plus PD to no signal
+#ExperimentFifteen[0] |=  $LifPlusPd "Exp15 initial expression pattern";
+#ExperimentFifteen[0] |=  $NoSignalCultureConditions "Exp15 culture conditions";
+#ExperimentFifteen[0] |=  $NoKnockDowns "Exp15 no knockdowns";  
+#ExperimentFifteen[0] |=  $NoOverExpression "Exp15 no overexpression";
+#ExperimentFifteen[18] |=  $NoSignal "Exp15 penultimate state";
+#ExperimentFifteen[19] |=  $NoSignal "Exp15 final state";
+
+// Experiment Sixteen from 2i Oct4 Knockdown to everything repressed
+#ExperimentSixteen[0] |=  $TwoiOctFourKnockout "Exp16 initial expression pattern";
+#ExperimentSixteen[0] |=  $TwoiCultureConditions "Exp16 culture conditions";
+#ExperimentSixteen[0] |=  $Oct4GeneKnockDown "Exp16 Oct4 knockdown";  
+#ExperimentSixteen[0] |=  $NoOverExpression "Exp16 no overexpression";
+#ExperimentSixteen[18] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp16 penultimate state";
+#ExperimentSixteen[19] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp16 final state";
+
+// Experiment Seventeen from 2i Sox2 Knockdown to everything repressed
+#ExperimentSeventeen[0] |=  $TwoiSoxTwoKnockout "Exp17 initial expression pattern";
+#ExperimentSeventeen[0] |=  $TwoiCultureConditions "Exp17 culture conditions";
+#ExperimentSeventeen[0] |=  $Sox2GeneKnockDown "Exp17 Sox2 knockdown";  
+#ExperimentSeventeen[0] |=  $NoOverExpression "Exp17 no overexpression";
+#ExperimentSeventeen[18] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp17 penultimate state";
+#ExperimentSeventeen[19] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp17 final state";
+
+// Experiment Eighteen from 2i Stat3 Knockdown to everything repressed
+#ExperimentEighteen[0] |=  $2iStatThreeKnockout "Exp18 initial expression pattern";
+#ExperimentEighteen[0] |=  $LifPlusPdCultureConditions "Exp18 culture conditions";
+#ExperimentEighteen[0] |=  $Stat3GeneKnockDown "Exp18 Stat3 knockdown";  
+#ExperimentEighteen[0] |=  $NoOverExpression "Exp18 no overexpression";
+#ExperimentEighteen[18] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp18 penultimate state";
+#ExperimentEighteen[19] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp18 final state";
+
+// Experiment Nineteen from 2i Esrrb Knockdown to everything repressed
+#ExperimentNineteen[0] |=  $2iEsrrbKnockout "Exp19 initial expression pattern";
+#ExperimentNineteen[0] |=  $TwoiCultureConditions "Exp19 culture conditions";
+#ExperimentNineteen[0] |=  $EsrrbGeneKnockDown "Exp19 Esrrb knockdown";  
+#ExperimentNineteen[0] |=  $NoOverExpression "Exp19 no overexpression";
+#ExperimentNineteen[18] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp19 penultimate state";
+#ExperimentNineteen[19] |=  $TwoiPlusLifWithKlf4KDAllZeroExpression "Exp19 final state";
+
+// Experiment Twenty from 2i plus LIF Esrrb Knockdown 
+#ExperimentTwenty[0] |=  $2iPlusLifEsrrbKnockout "Exp20 initial expression pattern";
+#ExperimentTwenty[0] |=  $TwoiPlusLifCultureConditions "Exp20 culture conditions";
+#ExperimentTwenty[0] |=  $EsrrbGeneKnockDown "Exp20 Esrrb knockdown";  
+#ExperimentTwenty[0] |=  $NoOverExpression "Exp20 no overexpression";
+#ExperimentTwenty[18] |=  $TwoiPlusLifWithKlf4KD2iPlusLifEsrrbKnockout "Exp20 penultimate state";
+#ExperimentTwenty[19] |=  $TwoiPlusLifWithKlf4KD2iPlusLifEsrrbKnockout "Exp20 final state";
+
+// Experiment Twenty One overexpression of Esrrb from 2i to just PD
+#ExperimentTwentyOne[0] |=  $2iEsrrbOverexpression "Exp21 initial expression pattern";
+#ExperimentTwentyOne[0] |=  $JustPdCultureConditions "Exp21 culture conditions";
+#ExperimentTwentyOne[0] |=  $NoKnockDowns "Exp21 no knockdowns";  
+#ExperimentTwentyOne[0] |=  $EsrrbGeneOverExpression "Exp21 no overexpression";
+#ExperimentTwentyOne[18] |=  $TwoiPlusLifWithKlf4KDPdOnlyEsrrbOverexpression "Exp21 penultimate state";
+#ExperimentTwentyOne[19] |=  $TwoiPlusLifWithKlf4KDPdOnlyEsrrbOverexpression "Exp21 final state";
+
+// Experiment Twenty Two Nanog knockdown in 2i plus lIF
+#ExperimentTwentyTwo[0] |=  $2iPlusLifNanogKnockdown "Exp22 initial expression pattern";
+#ExperimentTwentyTwo[0] |=  $TwoiPlusLifCultureConditions "Exp22 culture conditions";
+#ExperimentTwentyTwo[0] |=  $NanogKnockDown "Exp22 Nanog knockdown";
+#ExperimentTwentyTwo[0] |=  $NoOverExpression "Exp 22 no overexpression";
+#ExperimentTwentyTwo[18] |=  $TwoiPlusLifWithKlf4KDNanogKnockout "Exp22 penultimate state";
+#ExperimentTwentyTwo[19] |=  $TwoiPlusLifWithKlf4KDNanogKnockout "Exp22 final state";
+
+// Experiment Twenty Three overexpression of Tfcp2l1 in 2i plus LIF
+#ExperimentTwentyThree[0] |=  $2iPlusLifTfcp2l1Overexpression "Exp23 initial expression pattern";
+#ExperimentTwentyThree[0] |=  $JustPdCultureConditions "Exp23 culture conditions";
+#ExperimentTwentyThree[0] |=  $NoKnockDowns "Exp23 no knockdowns";
+#ExperimentTwentyThree[0] |=  $Tfcp2l1GeneOverExpression "Exp23 Tfcp2l1 overexpression";
+#ExperimentTwentyThree[18] |=  $TwoiPlusLifWithKlf4KDTfcp2l1Overexpression "Exp23 penultimate state";
+#ExperimentTwentyThree[19] |=  $TwoiPlusLifWithKlf4KDTfcp2l1Overexpression "Exp 23 final state";
+
+
+// Testing Klf4 single knockout
+#Klf4Knockout[0] |=  $TwoiPlusLifWithKlf4KD;
+#Klf4Knockout[0] |=  $TwoiPlusLifCultureConditions;
+#Klf4Knockout[0] |=  $Klf4GeneKD;
+#Klf4Knockout[0] |=  $NoOverExpression; 
+not(#Klf4Knockout[18] |=  $Oct4AndSox2Maintained);
+not(#Klf4Knockout[19] |=  $Oct4AndSox2Maintained);
+
+
+// Culture conditions 
+
+$TwoiPlusLifCultureConditions :=
+{
+ LIF = 1 and
+ CH = 1 and 
+ PD = 1
+};
+
+$TwoiCultureConditions :=
+{
+ LIF = 0 and
+ CH = 1 and
+ PD = 1
+};
+
+$LifPlusPdCultureConditions :=
+{
+ LIF = 1 and 
+ CH = 0 and 
+ PD = 1
+};
+
+$LifPlusChCultureConditions :=
+{
+ LIF = 1 and
+ CH = 1 and 
+ PD = 0
+};
+
+$NoSignalCultureConditions :=
+{
+ LIF = 0 and
+ CH = 0 and 
+ PD = 0
+};
+
+$JustPdCultureConditions :=
+{
+ LIF = 0 and
+ CH = 0 and 
+ PD = 1
+};
+
+// Knock downs and overexpressions
+
+$NoKnockDowns :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Oct4GeneKnockDown :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 1 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Sox2GeneKnockDown :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 1 and
+ KO(Tcf3) = 0
+};
+
+$Stat3GeneKnockDown :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 1 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$EsrrbGeneKnockDown :=
+{
+ KO(Esrrb) = 1 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$NanogKnockDown :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 1 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Gbx2NanogDKD :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 1 and
+ KO(Nanog) = 1 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$TfcpKlf2DKD :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 1 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 1 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Sall4Klf2DKD :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 1 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 1 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Klf4EsrrbDKD :=
+{
+ KO(Esrrb) = 1 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 1 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Klf4NanogDKD :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 1 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 1 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$Gbx2TfcpDKD :=
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 1 and
+ KO(Klf4) = 0 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 1 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Oct4) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0
+};
+
+$NoOverExpression :=
+{
+ FE(Esrrb)=0 and
+ FE(Tfcp2l1)=0 and 
+ FE(Klf4)=0 and
+ FE(Klf2)=0 and
+ FE(Tbx3)=0 and 
+ FE(Sall4)=0 and
+ FE(Gbx2)=0 and
+ FE(Nanog)=0 and
+ FE(Stat3)=0 and
+ FE(Oct4)=0 and
+ FE(Sox2)=0 and
+ FE(Tcf3)=0
+};
+
+$EsrrbGeneOverExpression :=
+{
+ FE(Esrrb)=1 and
+ FE(Tfcp2l1)=0 and 
+ FE(Klf4)=0 and
+ FE(Klf2)=0 and
+ FE(Tbx3)=0 and 
+ FE(Sall4)=0 and
+ FE(Gbx2)=0 and
+ FE(Nanog)=0 and
+ FE(Stat3)=0 and
+ FE(Oct4)=0 and
+ FE(Sox2)=0 and
+ FE(Tcf3)=0
+};
+
+$Tfcp2l1GeneOverExpression:=
+{
+ FE(Esrrb)=0 and
+ FE(Tfcp2l1)=1 and 
+ FE(Klf4)=0 and
+ FE(Klf2)=0 and
+ FE(Tbx3)=0 and 
+ FE(Sall4)=0 and
+ FE(Gbx2)=0 and
+ FE(Nanog)=0 and
+ FE(Stat3)=0 and
+ FE(Oct4)=0 and
+ FE(Sox2)=0 and
+ FE(Tcf3)=0
+};
+
+
+$Klf4OverExpression:=
+{
+ FE(Esrrb)=0 and
+ FE(Tfcp2l1)=0 and 
+ FE(Klf4)=1 and
+ FE(Klf2)=0 and
+ FE(Tbx3)=0 and 
+ FE(Sall4)=0 and
+ FE(Gbx2)=0 and
+ FE(Nanog)=0 and
+ FE(Stat3)=0 and
+ FE(Oct4)=0 and
+ FE(Sox2)=0 and
+ FE(Tcf3)=0
+};
+
+$YamanakaOverExpression:=
+{
+ FE(Esrrb)=0 and
+ FE(Tfcp2l1)=0 and 
+ FE(Klf4)=1 and
+ FE(Klf2)=0 and
+ FE(Tbx3)=0 and 
+ FE(Sall4)=0 and
+ FE(Gbx2)=0 and
+ FE(Nanog)=0 and
+ FE(Stat3)=0 and
+ FE(Oct4)=1 and
+ FE(Sox2)=1 and
+ FE(Tcf3)=0
+};
+
+$Sall4OverExpression := 
+{
+ FE(Esrrb) = 0 and
+ FE(Tfcp2l1) = 0 and
+ FE(Klf4) = 0 and
+ FE(Klf2) = 0 and
+ FE(Tbx3) = 0 and
+ FE(Sall4) = 1 and
+ FE(Gbx2) = 0 and
+ FE(Nanog) = 0 and
+ FE(Stat3) = 0 and
+ FE(Sox2) = 0 and
+ FE(Oct4) = 0 and
+ FE(Tcf3) = 0
+};
+
+
+// Gene expression levels patterns under each culture condition 
+
+$TwoiPlusLif:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+$Twoi:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+
+$LifPlusPd:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=0 and
+ Klf2=1 and
+ Tfcp2l1=0 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=0 and
+ Tcf3=1 and
+ Sall4=0 and
+ Stat3=1
+};
+
+$LifPlusCh:=
+{
+ MEKERK = 1 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+$NoSignal:=
+{
+ MEKERK = 1 and
+ Oct4=0 and
+ Sox2=0 and
+ Nanog=0 and
+ Esrrb=0 and
+ Klf2=0 and
+ Gbx2 = 0 and 
+ Tfcp2l1=0 and
+ Klf4=0 and
+ Tbx3=0 and
+ Sall4=0 and
+ Stat3=0
+};
+
+// Twoi conditions with Oct4 knockout
+$TwoiOctFourKnockout:=
+{
+ MEKERK = 0 and
+ Oct4=0 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+
+// Twoi conditions with Sox2 knockout
+$TwoiSoxTwoKnockout:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=0 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+
+// LIF plus PD conditions with Stat3 knockout
+$2iStatThreeKnockout :=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+ 
+$TwoiPlusLifWithKlf4KDAllZeroExpression:=
+{
+ MEKERK = 0 and
+ Oct4=0 and
+ Sox2=0 and
+ Nanog=0 and
+ Esrrb=0 and
+ Klf2=0 and
+ Gbx2=0 and 
+ Tfcp2l1=0 and
+ Klf4=0 and
+ Tbx3=0 and
+ Sall4=0 and
+ Stat3=0
+};
+
+$2iEsrrbKnockout:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=0 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+
+$2iPlusLifEsrrbKnockout:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=0 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+$TwoiPlusLifWithKlf4KD2iPlusLifEsrrbKnockout:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=0 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+// Twoi conditions with esrrb overexpression
+$2iEsrrbOverexpression :=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=0 and
+ Gbx2=0 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=0
+};
+
+// Only PD
+$TwoiPlusLifWithKlf4KDPdOnlyEsrrbOverexpression:=
+{
+ Oct4 = 1 and 
+ Sox2 = 1 and 
+ Nanog = 1 and
+ Esrrb = 1 and
+ Klf4 = 0
+};
+
+// Nanog knock down in 2i plus LIF
+$2iPlusLifNanogKnockdown:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=0 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+// Final state
+$TwoiPlusLifWithKlf4KDNanogKnockout:=
+{
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=0 and
+ Tbx3=1 and
+ Esrrb=0
+};
+
+// Initial state Tfcp2l1 overexpression in 2i plus LIF
+$2iPlusLifTfcp2l1Overexpression:=
+{
+ MEKERK = 0 and
+ Oct4=1 and
+ Sox2=1 and
+ Nanog=1 and
+ Esrrb=1 and
+ Klf2=1 and
+ Tfcp2l1=1 and
+ Klf4=1 and
+ Gbx2=1 and
+ Tbx3=1 and
+ Tcf3=0 and
+ Sall4=1 and
+ Stat3=1
+};
+
+// Final state Tfcp2l1 overexpression
+$TwoiPlusLifWithKlf4KDTfcp2l1Overexpression:=
+{
+ Oct4=1 and
+ Sox2=1 and 
+ Nanog=1 and 
+ Esrrb=1 and 
+ Klf4=0
+};
+
+$Oct4AndSox2Maintained :=
+{
+ Oct4 = 1 and 
+ Sox2 = 1
+};
+
+$Klf4GeneKD := 
+{
+ KO(Esrrb) = 0 and
+ KO(Tfcp2l1) = 0 and
+ KO(Klf4) = 1 and
+ KO(Klf2) = 0 and
+ KO(Tbx3) = 0 and
+ KO(Sall4) = 0 and
+ KO(Gbx2) = 0 and
+ KO(Nanog) = 0 and
+ KO(Stat3) = 0 and
+ KO(Sox2) = 0 and
+ KO(Tcf3) = 0 and
+ KO(Oct4) = 0 
+};
+
+$TwoiPlusLifWithKlf4KD := 
+{
+Esrrb = 1 and
+Tfcp2l1 = 1 and
+Klf4 = 0 and
+Klf2 = 1 and
+Tbx3 = 1 and
+Sall4 = 1 and
+Gbx2 = 1 and
+Nanog = 1 and
+Stat3 = 1 and
+Sox2 = 1 and
+Tcf3 = 0 and
+Oct4 = 1 and
+MEKERK = 0
+};

@@ -1,0 +1,172 @@
+﻿%{
+open System
+open Microsoft.Research.ReasoningEngine.Constraint
+open Microsoft.Research.ReasoningEngine.Var
+open System.Collections.Generic
+
+#indent "off"
+
+type Line = 
+	|Assign of string * BExpr
+	|Assert of BExpr  * string option	 //boolean expression * description	option
+	|Interaction of string * string * bool * bool //source * target * positive? * definite?
+	|Species of string * int list option * bool * bool * bool //name * allowed logics * KO? * FE? * must be activated
+	|Directive of Directive //possibly, create more structured directives
+	
+and Directive = 
+	|Uniqueness of Settings.Uniqueness
+    |Interaction_limit of int option
+    |Regulation of Settings.RegulationConditions
+    |Traj_length of int
+    |Updates of Settings.Updates		
+	|PreventRepeats
+%}
+
+%start start
+%token <System.Int32> INT32
+%token <System.Boolean> BOOL
+%token <System.String> SPECIES
+%token <System.String> NAME
+%token <System.String> PATH
+%token <System.String> DESCRIPTION
+%token LPAREN RPAREN LCBRA RCBRA LSBRA RSBRA DOT LET ASSIGN UNDER
+%token AT
+%token NOT
+%token TRUE FALSE
+%token AND OR 
+%token IMPLIES EQ
+%token POS NEG OPT TO COMMA PLUS MINUS EXCL SAT
+%token KOTU FETU KOT FET
+%token EOF EOL
+%token DIRECTIVE UNIQUENESS LIMIT REGULATION LENGTH UPDATES UPATH PREVENTREPEATS
+%token INTERACTIONS FULL PATHS DEFAULT CARDINALITY LEGACY NOTHRESHOLDS SYNC ASYNC 
+%token FIXPOINT
+
+
+%nonassoc LPAREN RPAREN
+%nonassoc LCBRA RCBRA
+%nonassoc LSBRA RSBRA
+%nonassoc NOT
+%left AND 
+%left OR
+%left IMPLIES
+%left EQUIVALENT
+%left EQ
+
+//out type
+%type < Line list> start
+
+%%
+start: Lines {$1}
+
+Lines:
+	|Line EOL Lines			{ $1::$3 }
+	|Line EOL EOF			{ [$1]   }	    
+
+
+Line:
+	|Species								{ $1 }
+	|Interaction							{ $1 }
+	|NAME ASSIGN LCBRA BExpr RCBRA			{ Assign($1,$4)		  }
+	|BExpr									{ Assert($1,None)     }	
+	|BExpr DESCRIPTION						{ Assert($1,Some($2)) }	
+	|DIRECTIVE Directive					{ Directive($2)       }
+
+Directive:
+	|UNIQUENESS INTERACTIONS	{ Uniqueness(Settings.Interactions) }
+	|UNIQUENESS FULL			{ Uniqueness(Settings.Model)		}
+	|UNIQUENESS PATHS			{ Uniqueness(Settings.All)			}
+	|UNIQUENESS UPATH PATH INT32{ Uniqueness(Settings.Path($3,$4))	}
+	|REGULATION DEFAULT			{ Regulation(Settings.Default)		}
+	|REGULATION CARDINALITY		{ Regulation(Settings.Cardinality)	}
+	|REGULATION LEGACY			{ Regulation(Settings.Legacy)		}
+	|REGULATION NOTHRESHOLDS	{ Regulation(Settings.NoThresholds)	}
+	|UPDATES SYNC				{ Updates(Settings.Synchronous)		}
+	|UPDATES ASYNC				{ Updates(Settings.Asynchronous)	}
+	|LIMIT INT32				{ Interaction_limit(Some($2))		}		
+	|LENGTH INT32				{ Traj_length($2)					}		
+	|PREVENTREPEATS				{ PreventRepeats                    }
+	
+
+Species:
+	| SPECIES LPAREN Ints RPAREN						{Species($1,Some($3),false,false,false)}		
+	| SPECIES											{Species($1,None,false,false,false)}		
+	| SPECIES LSBRA MINUS RSBRA LPAREN Ints RPAREN		{Species($1,Some($6),true,false,false)}
+	| SPECIES LSBRA MINUS RSBRA							{Species($1,None,true,false,false)}	
+	| SPECIES LSBRA PLUS RSBRA LPAREN Ints RPAREN		{Species($1,Some($6),false,true,false)}
+	| SPECIES LSBRA PLUS RSBRA							{Species($1,None,false,true,false)}	
+	| SPECIES LSBRA MINUS PLUS RSBRA LPAREN Ints RPAREN {Species($1,Some($7),true,true,false)}
+	| SPECIES LSBRA MINUS PLUS RSBRA					{Species($1,None,true,true,false)}	
+	| SPECIES LSBRA PLUS MINUS RSBRA LPAREN Ints RPAREN {Species($1,Some($7),true,true,false)}	
+	| SPECIES LSBRA PLUS MINUS RSBRA					{Species($1,None,true,true,false)}	
+	| SPECIES LSBRA EXCL RSBRA LPAREN Ints RPAREN		{Species($1,Some($6),false,false,true)}		
+	| SPECIES LSBRA EXCL RSBRA							{Species($1,None,false,false,true)}
+	| SPECIES LSBRA EXCL MINUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($7),true,false,true)}
+	| SPECIES LSBRA EXCL MINUS RSBRA					{Species($1,None,true,false,true)}	
+	| SPECIES LSBRA MINUS EXCL RSBRA LPAREN Ints RPAREN	{Species($1,Some($7),true,false,true)}
+	| SPECIES LSBRA MINUS EXCL RSBRA					{Species($1,None,true,false,true)}		
+	| SPECIES LSBRA EXCL PLUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($7),false,true,true)}
+	| SPECIES LSBRA EXCL PLUS RSBRA						{Species($1,None,false,true,true)}	
+	| SPECIES LSBRA PLUS EXCL RSBRA LPAREN Ints RPAREN	{Species($1,Some($7),false,true,true)}
+	| SPECIES LSBRA PLUS EXCL RSBRA						{Species($1,None,false,true,true)}		
+	| SPECIES LSBRA EXCL MINUS PLUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}
+	| SPECIES LSBRA EXCL MINUS PLUS RSBRA						{Species($1,None,true,true,true)}	
+	| SPECIES LSBRA EXCL PLUS MINUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}	
+	| SPECIES LSBRA EXCL PLUS MINUS RSBRA						{Species($1,None,true,true,true)}	
+	| SPECIES LSBRA MINUS EXCL PLUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}
+	| SPECIES LSBRA MINUS EXCL PLUS RSBRA						{Species($1,None,true,true,true)}	
+	| SPECIES LSBRA PLUS EXCL MINUS RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}	
+	| SPECIES LSBRA PLUS EXCL MINUS RSBRA						{Species($1,None,true,true,true)}	
+	| SPECIES LSBRA MINUS PLUS EXCL RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}
+	| SPECIES LSBRA MINUS PLUS EXCL RSBRA						{Species($1,None,true,true,true)}	
+	| SPECIES LSBRA PLUS MINUS EXCL RSBRA LPAREN Ints RPAREN	{Species($1,Some($8),true,true,true)}	
+	| SPECIES LSBRA PLUS MINUS EXCL RSBRA						{Species($1,None,true,true,true)}	
+
+
+
+
+
+Interaction:
+	| SPECIES SPECIES POS		{Interaction($1,$2,true,true)}
+	| SPECIES SPECIES NEG		{Interaction($1,$2,false,true)}
+	| SPECIES SPECIES POS OPT	{Interaction($1,$2,true,false)}
+	| SPECIES SPECIES NEG OPT	{Interaction($1,$2,false,false)}	
+	
+BExpr:
+	| LPAREN BExpr RPAREN		{$2}
+	| BTerm                     {BTerm($1)}
+    | BExpr EQ BExpr			{Beq($1,$3)}
+	| BExpr IMPLIES BExpr		{Imp($1,$3)}
+    | BExpr AND BExpr			{And($1,$3)}
+    | BExpr OR BExpr			{Or($1,$3)}
+    | NOT BExpr					{Not($2)}	
+
+BTerm: 
+    | TRUE									{BConst(true)}
+	| FALSE									{BConst(false)}
+	| INT32									{if $1>0 then BConst(true) else BConst(false)}	
+	| SPECIES								{BVar(AbsStateVar(0,$1))}	
+	| SPECIES LSBRA INT32 RSBRA				{BVar(AbsPStateVar($3,$1))}
+	| PATH DOT SPECIES						{BVar(AbsKStateVar($1,0,$3))}
+	| PATH LSBRA INT32 RSBRA DOT SPECIES	{BVar(StateVar($1,$3,$6))}					
+	| PATH DOT SPECIES						{BVar(AbsKStateVar($1,0,$3))}	
+	| PATH DOT KOT LPAREN SPECIES RPAREN	{BVar(PathVar($1,"KO_" + $5))}
+	| PATH DOT FET LPAREN SPECIES RPAREN	{BVar(PathVar($1,"FE_" + $5))}
+	| KOT LPAREN SPECIES RPAREN				{BVar(AbsPathVar("KO_" + $3))}
+	| FET LPAREN SPECIES RPAREN				{BVar(AbsPathVar("FE_" + $3))}
+	| KOTU SPECIES							{BVar(AbsPathVar("KO_" + $2))}
+	| FETU SPECIES							{BVar(AbsPathVar("FE_" + $2))}	
+	| Predicate								{Predicate($1)}
+	| FIXPOINT LPAREN PATH LSBRA INT32 RSBRA RPAREN		{Fixpoint($3,$5)}
+	
+Predicate:	
+	| NAME									{AbsPred($1)}
+	| PATH LSBRA INT32 RSBRA SAT NAME		{ConcPred($6,$1,$3)}
+	| NAME LSBRA INT32 RSBRA				{AbsPPred($1,$3)}	
+	| PATH SAT NAME							{AbsKPred($3,$1)}
+
+Ints:
+	| INT32 COMMA Ints			{$1::$3}
+	| INT32						{[$1]}
+	| INT32 TO INT32			{[$1..$3]}
+	| INT32 TO INT32 COMMA Ints	{List.append([$1..$3]) $5}	

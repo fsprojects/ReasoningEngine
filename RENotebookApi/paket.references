@@ -4,8 +4,8 @@ FSharp.Core
 Newtonsoft.Json
 XPlot.Plotly
 FsLexYacc.Runtime
-Microsoft.Msagl
-Microsoft.Msagl.Drawing
+AutomaticGraphLayout
+AutomaticGraphLayout.Drawing
 SixLabors.ImageSharp
 SixLabors.ImageSharp.Drawing
-#System.Drawing.Common
+System.Memory

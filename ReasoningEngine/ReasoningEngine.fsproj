@@ -29,7 +29,6 @@
     <None Include="Parser.fsy" />
     <None Include="Lexer.fsl" />
     <Compile Include="Tests.fs" />
-    <None Include="REparser.bat" />
     <None Include="app.config" />
     <None Include="paket.references" />
   </ItemGroup>
