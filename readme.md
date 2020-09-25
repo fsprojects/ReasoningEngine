@@ -9,6 +9,11 @@ The Reasoning Engine defines a set of data structures and a corresponding DSL (t
 ## REIL Basics
 A system is described by a number of discrete state variables, which could be of ``int`` (int), ``nat`` (non-negative integer) or ``bool`` (Boolean) type. Each variable can be either a ``system``, ``path`` or ``state`` variable. Path variables are replicated for each trajectory of the system that is considered as part of the analysis. State variables are replicated for each experiment and at every discrete time step and system variable are not replicated. Constraints are defined over the different variables of the system. Additional examples are available [here](Examples/ReasoningEngineBasics.ipynb).
 
+## Tool installation
+The Reasoning Engine tool are built using F# and there are install instructions available at https://fsharp.org/
+
+We provide [example](Examples) Jupyter notebooks using either https://github.com/dotnet/interactive or https://github.com/fsprojects/IfSharp see those projects for installation instructions.
+
 [Dunn2014]: https://science.sciencemag.org/content/344/6188/1156.full
 [Yordanov2016]: https://www.nature.com/articles/npjsba201610
 [Z3]: https://github.com/Z3Prover/z3
