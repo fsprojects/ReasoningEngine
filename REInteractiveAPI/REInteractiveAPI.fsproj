@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Include="Lib.fs" />
     <Compile Include="REIL.fs" />
+    <Compile Include="REIN.fs" />
     <None Include="ReLoad.fsx" />
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReasoningEngine\ReasoningEngine.fsproj" />
+    <ProjectReference Include="..\REIN\REIN.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

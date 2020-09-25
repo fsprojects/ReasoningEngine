@@ -8,6 +8,7 @@ type PlotlyOutput =
 
 //Not working yet
 type MSAGLOutput = MSAGLOutput of string
+type HtmlOutput = HtmlOutput of string
 
 type MSAGL = 
 
