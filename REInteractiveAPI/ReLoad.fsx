@@ -33,3 +33,21 @@ Formatter.Register<Microsoft.Research.RENotebook.Lib.HtmlOutput>(
     formatter = Func<_,_,_,_>(fun context htmlOutput (writer: TextWriter) ->
         match htmlOutput with Microsoft.Research.RENotebook.Lib.HtmlOutput html -> display(HTML(html)) |> ignore
         true))
+
+// Lists the required and disallowed interactions in a table
+let DrawInteractions required disallowed = 
+    if (required = Set.empty) then
+        let rStr = ""
+        let dStr = disallowed |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
+        sprintf "<table><tr><th>Required Interactions</th><th>Disallowed Interactions</th></tr><tr><td>%s</td><td>%s</td>" rStr dStr
+        |> Lib.HtmlOutput
+    elif (disallowed = Set.empty) then
+        let rStr = required |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
+        let dStr = ""
+        sprintf "<table><tr><th>Required Interactions</th><th>Disallowed Interactions</th></tr><tr><td>%s</td><td>%s</td>" rStr dStr
+        |> Lib.HtmlOutput
+    else 
+        let rStr = required |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
+        let dStr = disallowed |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
+        sprintf "<table><tr><th>Required Interactions</th><th>Disallowed Interactions</th></tr><tr><td>%s</td><td>%s</td>" rStr dStr
+        |> Lib.HtmlOutput
