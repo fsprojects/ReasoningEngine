@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Formalisms", "Formalisms", 
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "REIN", "REIN\REIN.fsproj", "{1F116AAD-AB7D-4C4D-9DF0-D63C3224CA6B}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ReinMoCo", "ReinMoCo\ReinMoCo.fsproj", "{AB9E086C-BC6C-480D-87F3-6268F5DD95CC}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RESIN", "RESIN\RESIN.fsproj", "{5E116ECC-BECD-40A8-A490-3FF18690BFC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,12 +39,22 @@ Global
 		{1F116AAD-AB7D-4C4D-9DF0-D63C3224CA6B}.Debug|x64.Build.0 = Debug|Any CPU
 		{1F116AAD-AB7D-4C4D-9DF0-D63C3224CA6B}.Release|x64.ActiveCfg = Release|Any CPU
 		{1F116AAD-AB7D-4C4D-9DF0-D63C3224CA6B}.Release|x64.Build.0 = Release|Any CPU
+		{AB9E086C-BC6C-480D-87F3-6268F5DD95CC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB9E086C-BC6C-480D-87F3-6268F5DD95CC}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB9E086C-BC6C-480D-87F3-6268F5DD95CC}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB9E086C-BC6C-480D-87F3-6268F5DD95CC}.Release|x64.Build.0 = Release|Any CPU
+		{5E116ECC-BECD-40A8-A490-3FF18690BFC6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E116ECC-BECD-40A8-A490-3FF18690BFC6}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E116ECC-BECD-40A8-A490-3FF18690BFC6}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E116ECC-BECD-40A8-A490-3FF18690BFC6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1F116AAD-AB7D-4C4D-9DF0-D63C3224CA6B} = {A823F6DD-B0A1-4B8D-B5A7-888866623482}
+		{AB9E086C-BC6C-480D-87F3-6268F5DD95CC} = {A823F6DD-B0A1-4B8D-B5A7-888866623482}
+		{5E116ECC-BECD-40A8-A490-3FF18690BFC6} = {A823F6DD-B0A1-4B8D-B5A7-888866623482}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D29826B9-C774-48D1-9B73-7EA5C05C0187}

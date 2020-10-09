@@ -111,6 +111,188 @@ type HTML =
         |> Seq.reduce(fun a b -> a + "\n" + b)
         |> sprintf "<table style=\"border: 3px solid black\">\n%s\n%s\n</table>" headers
 
+type REIN  =
+    static member ModelToGraph (model:Microsoft.Research.REIN.REIN.Problem) = 
+        let graph = new Microsoft.Msagl.Drawing.Graph("graph"); 
+
+        model.species
+        |> Seq.iter(fun n ->             
+            let node = graph.AddNode(n.name)
+            node.Attr.Shape <- Microsoft.Msagl.Drawing.Shape.Ellipse
+
+            if n.FE && n.KO then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Yellow                
+            else if n.FE then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Green
+            else if n.KO then             
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Red
+            )
+
+        model.interactions
+        |> Seq.iter(fun i -> 
+            let edge = graph.AddEdge(i.source,i.target)
+            
+            if i.positive then
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Green
+            else
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Red            
+            
+            if not i.definite then
+                edge.Attr.AddStyle(Microsoft.Msagl.Drawing.Style.Dashed)
+            )
+
+        graph
+
+        // Creating a bespoke model colouring scheme that I want to use to generate images for publication
+        // Signals will be black if active (repurposing the KO label for this...)
+        // Nodes will be blue if active (repurposing the KO+FE label for this...)
+        // Activatory interactions will be black (not green)
+    static member ModelToGraphBlueNodesBlackSignals (model:Microsoft.Research.REIN.REIN.Problem) = 
+
+        let graph = new Microsoft.Msagl.Drawing.Graph("graph")
+
+        model.species
+        |> Seq.iter(fun n ->             
+            let node = graph.AddNode(n.name)
+            node.Attr.Shape <- Microsoft.Msagl.Drawing.Shape.Ellipse                
+
+            if n.FE && n.KO then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Blue 
+                node.Label.FontColor <- Microsoft.Msagl.Drawing.Color.White
+            else if n.FE then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Green
+            else if n.KO then             
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Black
+                node.Label.FontColor <- Microsoft.Msagl.Drawing.Color.White
+            )
+
+        model.interactions
+        |> Seq.iter(fun i -> 
+            let edge = graph.AddEdge(i.source,i.target)
+            
+            if i.positive then
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Black //Green
+            else
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Red            
+            
+            if not i.definite then
+                edge.Attr.AddStyle(Microsoft.Msagl.Drawing.Style.Dashed)
+            )
+
+        //Figure out the source nodes so they can go first
+        let sourceNodes =
+            graph.Nodes
+            |> Seq.filter (fun node -> not (Seq.exists (fun (edge:Microsoft.Msagl.Drawing.Edge) -> edge.SourceNode <> node) node.InEdges) )
+
+        let notSourceNodes = System.Linq.Enumerable.Except(graph.Nodes,sourceNodes)
+
+        sourceNodes
+        |> Seq.iter (fun sourceNode ->
+            notSourceNodes
+            |> Seq.iter (fun notSourceNode ->
+                graph.LayerConstraints.AddUpDownConstraint(sourceNode,notSourceNode)
+                )
+            )
+//
+//        //Rotate to horizontal orientation
+//        let settings = Microsoft.Msagl.Layout.Layered.SugiyamaLayoutSettings()
+//        settings.Transformation <- Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation.Rotation(System.Math.PI / 2.0)
+//        graph.LayoutAlgorithmSettings <- settings
+//
+        graph
+
+
+    // As above but horizontal    
+    static member ModelToGraphBlueNodesBlackSignalsHorizontal (model:Microsoft.Research.REIN.REIN.Problem) = 
+                
+        let graph = new Microsoft.Msagl.Drawing.Graph("graph"); 
+
+        model.species
+        |> Seq.iter(fun n ->             
+            let node = graph.AddNode(n.name)
+            node.Attr.Shape <- Microsoft.Msagl.Drawing.Shape.Ellipse                
+
+            if n.FE && n.KO then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Blue 
+                node.Label.FontColor <- Microsoft.Msagl.Drawing.Color.White
+            else if n.FE then
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Green
+            else if n.KO then             
+                node.Attr.FillColor <- Microsoft.Msagl.Drawing.Color.Black
+                node.Label.FontColor <- Microsoft.Msagl.Drawing.Color.White
+            )
+
+        model.interactions
+        |> Seq.iter(fun i -> 
+            let edge = graph.AddEdge(i.source,i.target)
+            
+            if i.positive then
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Black //Green
+            else
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Red            
+            
+            if not i.definite then
+                edge.Attr.AddStyle(Microsoft.Msagl.Drawing.Style.Dashed)
+            )
+
+        //Figure out the source nodes so they can go first
+        let sourceNodes =
+            graph.Nodes
+            |> Seq.filter (fun node -> not (Seq.exists (fun (edge:Microsoft.Msagl.Drawing.Edge) -> edge.SourceNode <> node) node.InEdges) )
+
+        let notSourceNodes = System.Linq.Enumerable.Except(graph.Nodes,sourceNodes)
+
+        sourceNodes
+        |> Seq.iter (fun sourceNode ->
+            notSourceNodes
+            |> Seq.iter (fun notSourceNode ->
+                graph.LayerConstraints.AddUpDownConstraint(sourceNode,notSourceNode)
+                )
+            )
+
+        //Rotate to horizontal orientation
+        let settings = Microsoft.Msagl.Layout.Layered.SugiyamaLayoutSettings()
+        settings.Transformation <- Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation.Rotation(System.Math.PI / 2.0)
+        graph.LayoutAlgorithmSettings <- settings
+
+        graph
+
+    static member SolutionToGraph (solution:Microsoft.Research.ReasoningEngine.Solution.Solution) = 
+        //Note: this function assumes that the solution represents a RE:IN model                
+        let interactions = Microsoft.Research.REIN.Export.SolutionToInteractions solution
+        //let graph = new Microsoft.Msagl.GraphViewerGdi.GViewer(); 
+        let graph = new Microsoft.Msagl.Drawing.Graph("graph");         
+
+        interactions
+        |> Seq.iter(fun i -> 
+            let edge = graph.AddEdge(i.source,i.target)
+            
+            if i.positive then
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Green
+            else
+                edge.Attr.Color <- Microsoft.Msagl.Drawing.Color.Red                                
+            )
+           
+        //set node as ovals
+        graph.Nodes |> Seq.iter(fun node -> node.Attr.Shape <- Microsoft.Msagl.Drawing.Shape.Ellipse)
+        
+        graph
+
+type RESIN = 
+    static member SwitchesToGraph (model:Microsoft.Research.RESIN.RESIN.Problem) = 
+        let graph = new Microsoft.Msagl.Drawing.Graph("graph"); 
+
+        model.cells
+        |> Seq.iter(fun cell ->             
+            let node = graph.AddNode(cell.cname)
+            node.Attr.Shape <- Microsoft.Msagl.Drawing.Shape.Ellipse            
+            )
+
+        model.switches        
+        |> Seq.iter(fun s -> graph.AddEdge(s.cell1, s.cell2) |> ignore)
+
+        graph
+
 type TrajPlotSettings = 
     { offset    : float
     ; spread    : float

@@ -14,13 +14,17 @@
     <Compile Include="Lib.fs" />
     <Compile Include="REIL.fs" />
     <Compile Include="REIN.fs" />
+    <Compile Include="RESIN.fs" />
+    <Compile Include="ReinMoCo.fs" />
     <None Include="app.config" />
     <None Include="paket.references" />
     <None Include="ReLoad.fsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReasoningEngine\ReasoningEngine.fsproj" />
+    <ProjectReference Include="..\ReinMoCo\ReinMoCo.fsproj" />
     <ProjectReference Include="..\REIN\REIN.fsproj" />
+    <ProjectReference Include="..\RESIN\RESIN.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

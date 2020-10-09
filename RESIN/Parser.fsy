@@ -1,0 +1,138 @@
+﻿%{
+open System
+open Microsoft.Research.ReasoningEngine.Constraint
+open Microsoft.Research.ReasoningEngine.Var
+open System.Collections.Generic
+
+#indent "off"
+
+//arithmetic term
+type Line = 
+	|Assign of string * BExpr
+	|Sync of bool // synchronous update?  
+	|Assert of string * int * BExpr  * string * bool //experiment * step * expression * description * asyncFlag	
+	|Species of string * int list * bool * bool //name * allowed logics * KO? * FE?
+	|Cell of string * (string * string * bool * bool) seq // name * interactions; interactions are source * target * positive? * definite? * id
+	|Switch of string * string * BExpr// cell name 1 * cell name 2 * condition 
+	
+%}
+
+%start start
+%token <System.Int32> INT32
+%token <System.Boolean> BOOL
+%token <System.String> SPECIES
+%token <System.String> NAME
+%token <System.String> PATH
+%token <System.String> CELL
+%token <System.String> DESCRIPTION
+%token LPAREN RPAREN LBRA RBRA LSBRA RSBRA DOT LET ASSIGN UNDER DEFINE SYNC ASYNC ALLOW FIXED
+%token AT
+%token DIRECTIVE
+%token NOT
+%token TRUE FALSE
+%token AND OR 
+%token IMPLIES EQ SWITCH
+%token POS NEG TO COMMA PLUS MINUS OPT
+%token EOF EOL
+
+
+%nonassoc LPAREN RPAREN
+%nonassoc NOT
+%left AND 
+%left OR
+%left IMPLIES
+%left EQUIVALENT
+%left EQ LT LE GE GT
+%left PLUS
+%left MINUS
+%left MUL 
+
+
+//out type
+%type < Line list> start
+
+%%
+start: Lines {$1}
+
+Lines:
+	|Line EOL Lines			{ $1::$3 }
+	|Line EOL EOF			{ [$1]   }	    
+
+Line:
+	|LET NAME ASSIGN LBRA BExpr RBRA  {Assign($2,$5)}
+	|ALLOW CELL SWITCH CELL {Switch($2,$4, BTerm(BConst(true)))}
+	|ALLOW CELL BExpr SWITCH CELL {Switch($2,$5,$3)}
+	|DEFINE CELL ASSIGN LBRA Interactions RBRA  {Cell($2,$5)}
+	|DIRECTIVE EQ SYNC                 {Sync(true)}
+	|DIRECTIVE EQ ASYNC                 {Sync(false)}
+	|BExpr							  { Assert("default",-1,$1,"", false)     }	
+	|BExpr DESCRIPTION				  { Assert("default",-1,$1,$2, false)     }	
+	|UNDER PATH BExpr				  { Assert($2,-1,$3,"", false)     } 	
+	|UNDER PATH BExpr DESCRIPTION	  { Assert($2,-1,$3,$4, false)     } 
+	|UNDER PATH AT INT32 BExpr				  { Assert($2,$4,$5,"", false)     } 	
+	|UNDER PATH AT INT32 BExpr DESCRIPTION	  { Assert($2,$4,$5,$6, false)     } 
+	|UNDER PATH AT INT32 FIXED BExpr				  { Assert($2,$4,$6,"", true) } 	
+	|UNDER PATH AT INT32 FIXED BExpr DESCRIPTION	  { Assert($2,$4,$6,$7, true)} 
+	|Species						 {$1}
+
+
+Interactions: 
+	| Interaction EOL				{[$1]}
+	| Interaction EOL Interactions	{$1::$3}
+
+Interaction:
+	| SPECIES SPECIES POS		{($1,$2,true,true)}
+	| SPECIES SPECIES NEG		{($1,$2,false,true)}
+	| SPECIES SPECIES POS OPT	{($1,$2,true,false)}
+	| SPECIES SPECIES NEG OPT	{($1,$2,false,false)}
+
+Species:
+	| SPECIES LPAREN Ints RPAREN {Species($1,$3,false,false)}
+	| SPECIES LSBRA MINUS RSBRA LPAREN Ints RPAREN {Species($1,$6,true,false)}
+	| SPECIES LSBRA PLUS RSBRA LPAREN Ints RPAREN {Species($1,$6,false,true)}
+	| SPECIES LSBRA MINUS PLUS RSBRA LPAREN Ints RPAREN {Species($1,$7,true,true)}
+	| SPECIES LSBRA PLUS MINUS RSBRA LPAREN Ints RPAREN {Species($1,$7,true,true)}
+
+Ints:
+	| INT32 COMMA Ints			{$1::$3}
+	| INT32						{[$1]}
+	| INT32 TO INT32			{[$1..$3]}
+	| INT32 TO INT32 COMMA Ints	{List.append([$1..$3]) $5}	
+
+BTerm: 
+    | TRUE						{BConst(true)}
+	| FALSE						{BConst(false)}
+	| INT32						{if $1>0 then BConst(true) else BConst(false)}
+	| SPECIES					{BVar(AbsStateVar(0,$1))}
+	| CELL						{BVar(AbsStateVar(0,$1))}
+	| SPECIES LSBRA INT32 RSBRA {BVar(StateVar("default",$3,$1))}
+	| PATH DOT SPECIES			{BVar(AbsKStateVar($1,0,$3))}
+	| PATH LSBRA INT32 RSBRA DOT SPECIES  {BVar(StateVar($1,$3,$6))}	
+	| NAME						{Predicate(AbsPred($1))}
+
+	
+BExpr:
+	| LPAREN BExpr RPAREN		{$2}	
+	| BTerm                     {BTerm($1)}
+	| CoExpr                    {$1}
+    | BExpr EQ BExpr			{Beq($1,$3)}
+	| BExpr IMPLIES BExpr		{Imp($1,$3)}
+    | BExpr AND BExpr			{And($1,$3)}
+    | BExpr OR BExpr			{Or($1,$3)}
+    | NOT BExpr					{Not($2)}	
+	
+
+CoTerm: 
+    | TRUE						{BConst(true)}
+	| FALSE						{BConst(false)}
+	| INT32						{if $1>0 then BConst(true) else BConst(false)}
+	| SPECIES					{BVar(AbsStateVar(-1,$1))}
+
+CoExpr:
+	| LSBRA CoExpr RSBRA        {$2}
+	| CoTerm                    {BTerm($1)}
+    | CoExpr EQ CoExpr			{Beq($1,$3)}
+	| CoExpr IMPLIES CoExpr		{Imp($1,$3)}
+    | CoExpr AND CoExpr			{And($1,$3)}
+    | CoExpr OR CoExpr			{Or($1,$3)} 
+    | NOT CoExpr				{Not($2)}	
