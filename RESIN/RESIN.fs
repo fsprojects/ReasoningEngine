@@ -35,6 +35,7 @@ type Problem = {
     switches: seq<Switch>;
     constraints: seq<Fact>;
     fixedLabel: string;
+    solution: Microsoft.Research.ReasoningEngine.Solution.Solution option
     }
 
 
@@ -290,7 +291,7 @@ let ParseAST str =
                                                                                                         else {expr = ((Beq(BTerm(BVar(AbsStateVar(0, fVarName))), BTerm(BConst(Seq.exists (fun elem -> elem = p) fixedPaths)))).Init p t); info = None}]
                                                                                                                                                                   
                         Seq.append ( Seq.map(fun (path, step, exp:BExpr, description, asyncFixed) -> {expr = (exp.Init path step); info = Some(description)}) constraints) AsyncConstraints in 
-    {labels=labels; sync=syncVal; species=species; cells=cells; switches = switches; constraints=constraints; fixedLabel = fVarName}    
+    {labels=labels; sync=syncVal; species=species; cells=cells; switches = switches; constraints=constraints; fixedLabel = fVarName; solution = None}    
 
 let Parse str = 
     ParseAST str

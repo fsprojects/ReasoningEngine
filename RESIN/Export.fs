@@ -62,3 +62,20 @@ let Summarize  (solutions:seq<Microsoft.Research.ReasoningEngine.Solution.Soluti
 let CellsToRein (model:RESIN.Problem) =            
     model.cells
     |> Seq.map(fun c -> {Problem.empty with species = model.species; interactions = c.interactions}) 
+
+let Decode (model:Microsoft.Research.RESIN.RESIN.Problem) (solution:Microsoft.Research.ReasoningEngine.Solution.Solution) =     
+    // Instantiate the regulation conditions of species (RESIN assumes these do not change across cells)  
+    let species' = 
+        model.species
+        |> Seq.map(fun s -> {s with reg_conds = Some([System.Int32.Parse(solution.vars.[s.lVar])])})
+    
+    let cells' = 
+        model.cells
+        |> Seq.map(fun c -> {c with interactions = seq {for i in c.interactions do
+                                                            if i.definite then
+                                                                yield i //always include definite interactions
+                                                            else
+                                                                if solution.vars.[i.var] = "true" then
+                                                                    yield (i.MkDefinite()) //include optional interactions chosen in the solution as definite
+                                                        }})        
+    {model with species = species'; cells = cells'; solution = Some solution}   

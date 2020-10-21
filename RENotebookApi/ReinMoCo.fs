@@ -102,6 +102,7 @@ type ReinMoCo =
             |> String.concat "\n"
         
         graphSVG.Replace("</svg></svg>",motifLabels+"</svg>")
+        |> Lib.HtmlOutput
 
     static member DrawMotifs context width (p:Problem) =                         
         p.motifs 

@@ -1,0 +1,351 @@
+Cln3[-](19); MBF[-](18); Clb56[-](18); Mcm1[-](19); Swi5[-](19); Cdc20[-](19); Cdh1[-](18); Cln12[-](19); SBF[-](18); Sic1[-](18); Clb12[-](18); CellSize(18);
+CellSize Cln3 positive;
+CellSize CellSize negative;
+Cln3 MBF positive optional;
+Cln3 SBF positive optional;
+MBF Clb56 positive optional;
+Clb56 Mcm1 positive optional;
+Mcm1 Swi5 positive optional;
+Swi5 Sic1 positive optional;
+Cdc20 Swi5 positive optional;
+Cdc20 Cdh1 positive optional;
+Cln12 Cdh1 negative optional;
+Cln12 Sic1 negative optional;
+SBF Cln12 positive optional;
+Clb12 SBF negative optional;
+Cdc20 Clb12 negative optional;
+Cdc20 Clb56 negative optional;
+Clb56 Clb12 positive optional;
+Clb12 Mcm1 positive optional;
+Mcm1 Clb12 positive optional;
+Clb12 Sic1 negative optional;
+Sic1 Clb12 negative optional;
+Cdh1 Clb12 negative optional;
+Clb12 Cdh1 negative optional;
+Clb56 Cdh1 negative optional;
+Clb12 MBF negative optional;
+Clb56 Sic1 negative optional;
+Sic1 Clb56 negative optional;
+Mcm1 Cdc20 positive optional;
+Clb12 Swi5 negative optional;
+Clb12 Cdc20 positive optional;
+Cdc20 Sic1 positive optional;
+
+// Test specification
+#Test[0] |= $G1WithCdc20KD;
+#Test[0] |= $CellSizeOff;
+#Test[0] |= $Cdc20GeneKD;
+((#Test[1] |= $SWithCdc20KD) or (#Test[2] |= $SWithCdc20KD) or (#Test[3] |= $SWithCdc20KD) or (#Test[4] |= $SWithCdc20KD) or (#Test[5] |= $SWithCdc20KD) or (#Test[6] |= $SWithCdc20KD) or (#Test[7] |= $SWithCdc20KD) or (#Test[8] |= $SWithCdc20KD) or (#Test[9] |= $SWithCdc20KD) or (#Test[10] |= $SWithCdc20KD) or (#Test[11] |= $SWithCdc20KD) or (#Test[12] |= $SWithCdc20KD) or (#Test[13] |= $SWithCdc20KD) or (#Test[14] |= $SWithCdc20KD) or (#Test[15] |= $SWithCdc20KD) or (#Test[16] |= $SWithCdc20KD) or (#Test[17] |= $SWithCdc20KD) or (#Test[18] |= $SWithCdc20KD) or (#Test[19] |= $SWithCdc20KD) or (#Test[20] |= $SWithCdc20KD)); 
+
+// Fixed points specifications 
+
+#ExperimentOne[0] |= $FixedPoint1;
+#ExperimentOne[0] |= $CellSizeOff;
+#ExperimentOne[0] |= $NoKnockdowns;
+#ExperimentOne[1] |= $FixedPoint1;
+#ExperimentOne[1] |= $CellSizeOff;
+
+#ExperimentTwo[0] |= $FixedPoint2;
+#ExperimentTwo[0] |= $CellSizeOff;
+#ExperimentTwo[0] |= $NoKnockdowns;
+#ExperimentTwo[1] |= $FixedPoint2;
+#ExperimentTwo[1] |= $CellSizeOff;
+
+#ExperimentThree[0] |= $FixedPoint3;
+#ExperimentThree[0] |= $CellSizeOff;
+#ExperimentThree[0] |= $NoKnockdowns;
+#ExperimentThree[1] |= $FixedPoint3;
+#ExperimentThree[1] |= $CellSizeOff;
+
+#ExperimentFour[0] |= $FixedPoint4;
+#ExperimentFour[0] |= $CellSizeOff;
+#ExperimentFour[0] |= $NoKnockdowns;
+#ExperimentFour[1] |= $FixedPoint4;
+#ExperimentFour[1] |= $CellSizeOff;
+
+#ExperimentFive[0] |= $FixedPoint5;
+#ExperimentFive[0] |= $CellSizeOff;
+#ExperimentFive[0] |= $NoKnockdowns;
+#ExperimentFive[1] |= $FixedPoint5;
+#ExperimentFive[1] |= $CellSizeOff;
+
+#ExperimentSix[0] |= $FixedPoint6;
+#ExperimentSix[0] |= $CellSizeOff;
+#ExperimentSix[0] |= $NoKnockdowns;
+#ExperimentSix[1] |= $FixedPoint6;
+#ExperimentSix[1] |= $CellSizeOff;
+
+#ExperimentSeven[0] |= $FixedPoint7;
+#ExperimentSeven[0] |= $CellSizeOff;
+#ExperimentSeven[0] |= $NoKnockdowns;
+#ExperimentSeven[1] |= $FixedPoint7;
+#ExperimentSeven[1] |= $CellSizeOff;
+
+
+
+$CellSizeOn :=
+{
+ CellSize = 1
+};
+
+$CellSizeOff :=
+{
+ CellSize = 0
+};
+
+// The fixed points of the cell cycle network
+$FixedPoint1 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint2 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 1 and
+ Cln12 = 1 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 0 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint3 :=
+{
+ Cln3 = 0 and 
+ MBF = 1 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint4 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint5 :=
+{
+ Cln3 = 0 and 
+ MBF = 1 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint6 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 0 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$FixedPoint7 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 0 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$StationaryG1 :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+
+$Start :=
+{
+ Cln3 = 1 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$Sphase :=
+{
+ Cln3 = 0 and 
+ MBF = 1 and 
+ SBF = 1 and
+ Cln12 = 1 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 1 and 
+ Sic1 = 0 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$G2phase :=
+{
+ Cln3 = 0 and 
+ MBF = 1 and 
+ SBF = 1 and
+ Cln12 = 1 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 0 and
+ Clb56 = 1 and 
+ Sic1 = 0 and 
+ Clb12 = 1 and
+ Mcm1 = 1
+};
+
+$EarlyMphase :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 1 and 
+ Cdh1 = 0 and 
+ Swi5 = 0 and 
+ Cdc20 = 1 and
+ Clb56 = 1 and 
+ Sic1 = 0 and 
+ Clb12 = 1 and
+ Mcm1 = 1
+};
+
+$LateMphase :=
+{
+ Cln3 = 0 and 
+ MBF = 0 and 
+ SBF = 0 and
+ Cln12 = 0 and 
+ Cdh1 = 1 and 
+ Swi5 = 1 and 
+ Cdc20 = 1 and
+ Clb56 = 0 and 
+ Sic1 = 1 and 
+ Clb12 = 0 and
+ Mcm1 = 0
+};
+
+$NoKnockdowns :=
+{
+ KO(Cln3) = 0 and 
+ KO(MBF) = 0 and 
+ KO(SBF) = 0 and
+ KO(Cln12) = 0 and 
+ KO(Cdh1) = 0 and 
+ KO(Swi5) = 0 and 
+ KO(Cdc20) = 0 and
+ KO(Clb56) = 0 and 
+ KO(Sic1) = 0 and 
+ KO(Clb12) = 0 and
+ KO(Mcm1) = 0
+};
+
+$Cdc20GeneKD := 
+{
+ KO(Cln3) = 0 and
+ KO(MBF) = 0 and
+ KO(Clb56) = 0 and
+ KO(Mcm1) = 0 and
+ KO(Swi5) = 0 and
+ KO(Cdc20) = 1 and
+ KO(Cdh1) = 0 and
+ KO(Cln12) = 0 and
+ KO(SBF) = 0 and
+ KO(Sic1) = 0 and
+ KO(Clb12) = 0 
+};
+
+$G1WithCdc20KD := 
+{
+Cln3 = 0 and
+MBF = 1 and
+Clb56 = 0 and
+Mcm1 = 0 and
+Swi5 = 0 and
+Cdc20 = 0 and
+Cdh1 = 1 and
+Cln12 = 0 and
+SBF = 1 and
+Sic1 = 1 and
+Clb12 = 0
+};
+
+$SWithCdc20KD := 
+{
+Cln3 = 0 and
+MBF = 1 and
+Clb56 = 1 and
+Mcm1 = 0 and
+Swi5 = 0 and
+Cdc20 = 0 and
+Cdh1 = 0 and
+Cln12 = 1 and
+SBF = 1 and
+Sic1 = 0 and
+Clb12 = 0
+};

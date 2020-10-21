@@ -1,0 +1,183 @@
+// ------------------------------------------------------------------------------------------------------
+// Model: First and Second Heart Field differentiation
+// Interactions: Topology from Herrmann et al (2012) where interactions are marked as optional
+// Regulation conditions: Activation is required
+// Dynamics: Synchronous
+// Experimental observations: Initial progenitor expression pattern and two stable expression patterns 
+//                            corresponding to the first and second heart field as described in Herrmann // 			      et al (2011)
+//-------------------------------------------------------------------------------------------------------
+
+// Synchronous dynamics 
+directive updates sync;
+
+// Default regulation conditions
+directive regulation default;
+
+// Components require an activator to be activated
+eBmp2I[!](0..8); eBmp2II[!](0..8); ecanWntI[!](0..8); ecanWntII[!](0..8); Bmp2[!](0..8); canWnt[!](0..8); Dkk1[!](0..8); Fgf8[!](0..8); Foxc12[!](0..8); GATAs[!](0..8); Isl1[!](0..8); Mesp1[!](0..8); Nkx25[!](0..8); Tbx1[!](0..8); Tbx5[!](0..8); 
+
+// Interactions from Herrmann et al marked as optional save the direct targets of the input signals
+eBmp2I     eBmp2I   positive 	;
+eBmp2I     eBmp2II  positive 	;   
+ecanWntI   ecanWntI positive 	;
+ecanWntI   ecanWntII positive 	;
+eBmp2II    Bmp2	   positive 	;
+ecanWntII  canWnt  positive 	;
+canWnt	   Bmp2	   negative;
+Mesp1      Dkk1    positive;
+canWnt     Dkk1    positive;
+eBmp2II    Dkk1    negative;
+Mesp1      Fgf8    negative;
+Foxc12     Fgf8    positive;
+Tbx1       Fgf8    positive;
+canWnt     Foxc12  positive;
+ecanWntII  Foxc12  positive;
+Nkx25      GATAs   positive;
+Mesp1      GATAs   positive;
+Tbx5       GATAs   positive;
+Tbx1       Isl1    positive;
+Mesp1      Isl1    positive;
+Fgf8       Isl1    positive;
+canWnt     Isl1    positive;
+ecanWntII  Isl1    positive;
+canWnt     Mesp1   positive;
+eBmp2II    Mesp1   negative;
+Isl1       Nkx25   positive;
+GATAs      Nkx25   positive;
+Tbx1       Nkx25   positive;
+Mesp1      Nkx25   positive;
+Dkk1       Nkx25   positive;
+Bmp2       Nkx25   positive;
+Tbx5       Nkx25   positive;
+Foxc12     Tbx1    positive;
+Tbx1       Tbx5    negative;
+canWnt     Tbx5    negative;
+Nkx25      Tbx5    positive;
+Tbx5       Tbx5    positive;
+Mesp1      Tbx5    positive;
+Dkk1       Tbx5    negative;
+
+// Differentiation towards the first heart field
+#ExperimentFHF[0] |= $InitialFHF;
+#ExperimentFHF[0] |= $JustBmp2I;
+#ExperimentFHF[1] |= $Transita;
+#ExperimentFHF[1] |= $JustBmp2IAndBmp2II;
+#ExperimentFHF[2] |= $Transitb;
+#ExperimentFHF[2] |= $JustBmp2IAndBmp2II;
+#ExperimentFHF[3] |= $JustBmp2IAndBmp2II; 
+#ExperimentFHF[3] |= $FinalFHF and fixpoint(#ExperimentFHF[3]);
+
+// Differentiation towards the second heart field
+#ExperimentSHF[0] |= $InitialSHF;
+#ExperimentSHF[0] |= $JustBmp2IAndECanWntI;
+#ExperimentSHF[1] |= $Transita;
+#ExperimentSHF[1] |= $AllSignals;
+#ExperimentSHF[2] |= $Transitb;
+#ExperimentSHF[2] |= $AllSignals;
+#ExperimentSHF[3] |= $AllSignals;
+#ExperimentSHF[3] |= $FinalSHF and fixpoint(#ExperimentSHF[3]);
+
+// Gene expression patterns from Herrmann et al
+
+$InitialFHF :=
+{
+ eBmp2I = 1 and 
+ eBmp2II = 0 and 
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ canWnt = 1 and
+ Foxc12 = 0 and 
+ GATAs = 0 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0
+};
+
+$FinalFHF :=
+{
+ Bmp2   = 1 and
+ Fgf8   = 0 and 
+ Foxc12 = 0 and 
+ GATAs = 1 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 1 and
+ Tbx1 = 0 and 
+ Tbx5 = 1 
+};
+
+$InitialSHF :=
+{
+ canWnt = 1 and
+ Foxc12 = 0 and 
+ GATAs = 0 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0 
+};
+
+$FinalSHF :=
+{
+ canWnt = 1 and 
+ Fgf8   = 1 and 
+ Foxc12 = 1 and 
+ GATAs = 1 and
+ Isl1 = 1 and 
+ Mesp1 = 0 and 
+ Nkx25 = 1 and
+ Tbx1 = 1 and 
+ Tbx5 = 0 
+};
+
+$Transita :=
+{ 
+ Foxc12 = 0 and 
+ Mesp1 = 1 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0 
+};
+
+$Transitb :=
+{
+ canWnt = 0 and   
+ GATAs = 1 and
+ Isl1 = 1 and 
+ Tbx5 = 1 
+};
+
+$AllSignals :=
+{
+ ecanWntI = 1 and
+ ecanWntII = 1 and
+ eBmp2I = 1 and 
+ eBmp2II = 1 
+};
+
+$JustBmp2I :=
+{
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 0 
+};
+
+$JustBmp2IAndECanWntI :=
+{
+ ecanWntI = 1 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 0 
+};
+
+$JustBmp2IAndBmp2II :=
+{
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 1 
+};

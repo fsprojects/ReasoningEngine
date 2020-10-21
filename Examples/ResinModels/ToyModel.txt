@@ -1,0 +1,108 @@
+directive = sync;
+
+S1(0); S2(0); A(0..8); B(0..8); C(1, 3, 5); 
+
+define &CellA := {
+S2	S2	positive; 
+S2	B	positive; 
+S1	S1	positive; 
+S1	A	positive; 
+C	B	negative	optional;
+B	C	negative	optional;
+B	C	positive	optional; 
+B	A	positive	optional; 
+A	C	positive	optional; 
+A	B	positive	optional; 
+A	C	negative 	optional; 
+A	B	negative        optional;  
+};
+
+define &CellB := {
+S2	S2	positive; 
+S2	B	positive; 
+S1	S1	positive; 
+S1	A	positive; 
+C	B	negative	optional;
+B	C	positive	optional; 
+B	A	positive	optional; 
+A	C	positive	optional; 
+A	B	positive	optional; 
+A	C	negative 	optional; 
+A	B	negative        optional; 
+};
+
+define &CellC := {
+S2	S2	positive; 
+S2	B	positive; 
+S1	S1	positive; 
+S1	A	positive; 
+C	B	negative	optional;
+B	C	positive	optional; 
+B	A	positive	optional; 
+A	C	positive	optional; 
+A	B	positive	optional; 
+A	C	negative 	optional; 
+A	B	negative        optional; 
+};
+
+allow &CellA -> &CellA;
+allow &CellA -> &CellB;
+allow &CellA -> &CellC; 
+allow &CellB -> &CellB;
+allow &CellC -> &CellC;
+
+// Observation predicates
+let $Conditions1 := {S1 = 0 and S2 = 1};
+let $Conditions2 := {S1 = 1 and S2 = 1};
+let $Expression1 := {A = 1 and B = 1 and C = 1};
+let $Expression2 := {A = 0 and B = 1 and C = 1};
+let $Expression3 := {A = 0 and B = 0 and C = 1};
+let $AllOff := {A=0 and B=0 and C=0};
+
+
+// Observations
+under #Experiment1 at 0 &CellA;
+under #Experiment1 at 0 $Conditions1;
+under #Experiment1 at 0 $Expression1;
+under #Experiment1 at 1 &CellA;
+under #Experiment1 at 2 &CellA;
+under #Experiment1 at 3 &CellA;
+under #Experiment1 at 4 &CellA;
+under #Experiment1 at 5 &CellA;
+under #Experiment1 at 6 &CellA;
+under #Experiment1 at 7 &CellA;
+under #Experiment1 at 8 &CellA;
+under #Experiment1 at 9 &CellA;
+under #Experiment1 at 8 $Expression2;
+under #Experiment1 at 9 $Expression2;
+under #Experiment1 at 10 &CellB;
+
+under #Experiment2 at 0 &CellA;
+under #Experiment2 at 0 $Conditions2;
+under #Experiment2 at 0 $Expression2;
+under #Experiment2 at 1 &CellA;
+under #Experiment2 at 2 &CellA;
+under #Experiment2 at 3 &CellA;
+under #Experiment2 at 4 &CellA;
+under #Experiment2 at 5 &CellA;
+under #Experiment2 at 6 &CellA;
+under #Experiment2 at 7 &CellA;
+under #Experiment2 at 8 &CellA;
+under #Experiment2 at 9 &CellA;
+under #Experiment2 at 8 $Expression1;
+under #Experiment2 at 9 $Expression1;
+under #Experiment2 at 10 &CellB;
+
+under #Experiment3 at 0 &CellA;
+under #Experiment3 at 0 $Conditions1;
+under #Experiment3 at 0 $Expression2;
+under #Experiment3 at 2 $AllOff;
+under #Experiment3 at 3 &CellB;
+under #Experiment3 at 5 $Expression3;
+
+under #Experiment4 at 0 &CellA;
+under #Experiment4 at 0 $Conditions2;
+under #Experiment4 at 0 $Expression2;
+under #Experiment4 at 3 &CellC;
+under #Experiment4 at 5 $Expression1;
+
