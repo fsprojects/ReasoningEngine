@@ -1,0 +1,248 @@
+DUSP10(0..17); PPTC7(0..17); PPP3CA(0..17); PTPN13(0..17); DUSP6(0..17); PTPN1(0..17);
+
+define &ZeroHour := {
+DUSP10	PPTC7	positive;
+DUSP6	PPTC7	negative;
+DUSP6	PTPN1	negative;
+PPP3CA	PPP3CA	positive;
+PPTC7	DUSP10	negative;
+PPTC7	PPP3CA	negative;
+PPTC7	PPTC7	positive;
+PPTC7	PTPN1	negative;
+PTPN1	DUSP10	negative;
+PTPN1	PTPN1	positive;
+PTPN13	PPTC7	negative;
+PTPN13	PTPN13	positive;
+DUSP10	PPP3CA	positive optional;
+DUSP10	PTPN13	negative optional;
+DUSP6	DUSP10	positive optional;
+DUSP6	PPP3CA	positive optional;
+DUSP6	PTPN13	negative optional;
+PPP3CA	DUSP10	positive optional;
+PPP3CA 	PTPN1	positive optional;
+PPP3CA	PTPN13	positive optional;
+};
+
+
+define &FourthHour := {
+DUSP10	DUSP10	positive;
+DUSP10	DUSP6	 positive; 
+DUSP10	PPP3CA	positive;
+DUSP10	PPTC7	 positive; 
+DUSP10	PTPN1	 positive; 
+DUSP10	PTPN13	 positive; 
+DUSP6	DUSP10	positive;
+DUSP6	DUSP6	 positive; 
+DUSP6	PPP3CA	positive;
+DUSP6	PPTC7	 positive; 
+DUSP6	PTPN1	 positive; 
+DUSP6	PTPN13	 positive; 
+PPP3CA	DUSP10	positive;
+PPP3CA	DUSP6	 positive; 
+PPP3CA	PPP3CA	positive;
+PPP3CA	PPTC7	 positive; 
+PPP3CA	PTPN1	 positive; 
+PPP3CA	PTPN13	 positive; 
+PPTC7	DUSP10	positive;
+PPTC7	DUSP6	 positive; 
+PPTC7	PPP3CA	positive;
+PPTC7	PPTC7	 positive; 
+PPTC7	PTPN1	 positive; 
+PPTC7	PTPN13	 positive; 
+PTPN1	DUSP10	positive;
+PTPN1	DUSP6	 positive; 
+PTPN1	PPP3CA	positive;
+PTPN1	PPTC7	 positive; 
+PTPN1	PTPN1	 positive; 
+PTPN1	PTPN13	 positive; 
+PTPN13	DUSP10	 positive; 	
+PTPN13	DUSP6	 positive; 	 
+PTPN13	PPP3CA	positive;
+PTPN13	PPTC7	negative;
+PTPN13	PTPN1	 positive; 
+PTPN13	PTPN13	 positive;
+DUSP10	PPP3CA	positive optional;
+DUSP6	DUSP10  positive optional;
+DUSP6	PPP3CA	positive optional;
+DUSP6	PTPN13	negative optional;
+PPP3CA	DUSP10	positive optional;
+PPP3CA	PTPN1	positive optional;
+PPP3CA 	PTPN13	positive optional;
+PPTC7	PTPN1	negative optional;
+PTPN13	PTPN1	negative optional;
+};
+
+define &EighthHour := 
+{
+DUSP6	DUSP10	 negative; 
+DUSP6	PPTC7	 negative; 
+DUSP6	PTPN1	 negative;
+PPP3CA	DUSP10	 negative; 
+PPP3CA	PPTC7	 negative; 
+PPTC7	DUSP10	 negative; 
+PPTC7	PPTC7	positive;
+PTPN1	PTPN1	positive;
+PTPN13	PPTC7	 negative; 
+DUSP10	DUSP6	negative optional;
+DUSP10	PPP3CA	positive optional;
+DUSP10	PTPN1	negative optional;
+DUSP10	PTPN13	negative optional;
+DUSP6	DUSP10	positive optional;
+DUSP6	PPP3CA	positive optional;
+DUSP6	PTPN13	negative optional;
+PPP3CA	DUSP10	positive optional;
+PPP3CA	DUSP6	positive optional;
+PPP3CA	PTPN1	positive optional;
+PPP3CA	PTPN13	positive optional;
+PPTC7	DUSP6	positive optional;
+PPTC7	PTPN1	negative optional;
+PTPN13	DUSP6	negative optional;
+PTPN13  PTPN1	negative optional;
+};
+
+
+define &TwelfthHour := 
+{
+DUSP10	PTPN1	 negative;
+PPP3CA	DUSP10	 negative; 
+PPP3CA	PPTC7	 negative; 
+PPP3CA	PTPN13	 negative; 
+PTPN13	PPTC7	 negative; 
+DUSP10	DUSP10	positive optional;
+DUSP10	PPP3CA	positive optional;
+DUSP10	PPTC7	negative optional;
+DUSP6	DUSP10	positive optional;
+DUSP6	PPP3CA	positive optional;
+DUSP6	PTPN1	negative optional;
+DUSP6	PTPN13	negative optional;
+PPP3CA	DUSP10	positive optional;
+PPP3CA	PTPN1	positive optional;
+PPP3CA	PTPN13	positive optional;
+PTPN1	DUSP10	positive optional;
+PTPN13	DUSP10	positive optional;
+};
+
+// Allow only forward transitions
+
+allow &ZeroHour -> &ZeroHour; 
+allow &FourthHour -> &FourthHour;
+allow &EighthHour -> &EighthHour;
+allow &TwelfthHour -> &TwelfthHour;
+
+allow &ZeroHour -> &FourthHour;
+allow &ZeroHour -> &EighthHour;
+allow &ZeroHour -> &TwelfthHour;
+
+allow &FourthHour -> &EighthHour;
+allow &FourthHour -> &TwelfthHour;
+
+allow &EighthHour -> &TwelfthHour;
+
+// Define gene expression patterns at each state
+
+let $GeneExpressionZeroHour :=
+{
+DUSP10 = 0 and
+DUSP6 = 1 and
+PPP3CA = 1 and 
+PPTC7 = 0 and 
+PTPN1 = 1 and
+PTPN13 = 1
+};
+
+let $GeneExpressionFourthHour :={
+DUSP10 = 1 and
+DUSP6 = 1 and
+PPP3CA = 1 and 
+PPTC7 = 1 and 
+PTPN1 = 1 and
+PTPN13 = 1
+};
+
+let $GeneExpressionEighthHour :=
+{
+DUSP10 = 1 and
+DUSP6 = 0 and
+PPP3CA = 0 and 
+PPTC7 = 0 and 
+PTPN1 = 0 and
+PTPN13 = 0
+};
+
+let $GeneExpressionTwelfthHour :=
+{
+DUSP10 = 0 and
+DUSP6 = 0 and
+PPP3CA = 0 and 
+PPTC7 = 0 and 
+PTPN1 = 0 and
+PTPN13 = 0
+};
+
+let $GeneExpressionFourthHourUnderTSA :=
+{
+DUSP10 = 1 and
+DUSP6 = 1 and
+PPP3CA = 1 and 
+PPTC7 = 1 and 
+PTPN1 = 1 and
+PTPN13 = 1
+};
+
+let $GeneExpressionEighthHourUnderTSA :=
+{
+DUSP10 = 1 and
+DUSP6 = 1 and
+PPP3CA = 0 and 
+PPTC7 = 1 and 
+PTPN1 = 1 and
+PTPN13 = 0
+};
+
+let $GeneExpressionTwelfthHourUnderTSA :=
+{
+DUSP10 = 0 and
+DUSP6 = 0 and
+PPP3CA = 0 and 
+PPTC7 = 1 and 
+PTPN1 = 1 and
+PTPN13 = 0
+};
+
+let $GeneExpressionTwelfthHourUnderPKC :=
+{
+DUSP10 = 0 and
+DUSP6 = 0 and 
+PPTC7 = 1 and 
+PTPN1 = 1 and
+PTPN13 = 0
+};
+
+// Define the experimental observations 
+
+under #Experiment1 at 0 &ZeroHour;
+under #Experiment1 at 0 $GeneExpressionZeroHour;
+under #Experiment1 at 3 &FourthHour;
+under #Experiment1 at 4 $GeneExpressionFourthHour;
+under #Experiment1 at 7 &EighthHour;
+under #Experiment1 at 8 $GeneExpressionEighthHour;
+under #Experiment1 at 11 &TwelfthHour;
+under #Experiment1 at 12 $GeneExpressionTwelfthHour;
+under #Experiment1 at 13 $GeneExpressionTwelfthHour;
+
+// Drug treatment experiments
+
+under #TSATreatment at 0 &ZeroHour;
+under #TSATreatment at 0 $GeneExpressionZeroHour;
+under #PKCTreatment at 4 &ZeroHour;
+under #TSATreatment at 5 &EighthHour;
+under #TSATreatment at 4 $GeneExpressionFourthHourUnderTSA;
+under #TSATreatment at 8 $GeneExpressionEighthHourUnderTSA;
+under #TSATreatment at 12 $GeneExpressionTwelfthHourUnderTSA;
+under #TSATreatment at 13 $GeneExpressionTwelfthHourUnderTSA;
+
+under #PKCTreatment at 0 &ZeroHour;
+under #PKCTreatment at 0 $GeneExpressionZeroHour;
+under #PKCTreatment at 12 $GeneExpressionTwelfthHourUnderPKC;
+under #PKCTreatment at 13 $GeneExpressionTwelfthHourUnderPKC;
+under #PKCTreatment at 13 $GeneExpressionTwelfthHourUnderPKC;

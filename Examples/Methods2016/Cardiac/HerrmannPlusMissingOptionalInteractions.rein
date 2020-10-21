@@ -1,0 +1,377 @@
+// ------------------------------------------------------------------------------------------------------
+// Model: First and Second Heart Field differentiation
+// Interactions: Adds to original Hermann (2012) model all missing possible interactions between 11 key 
+// Regulation conditions: Activation is required
+// Dynamics: Synchronous
+// Experimental observations: Initial progenitor expression pattern and two stable expression patterns 
+//                            corresponding to the first and second heart field as described in Herrmann et al 2011)
+//-------------------------------------------------------------------------------------------------------
+
+// Synchronous dynamics 
+directive updates sync;
+
+// Default regulation conditions
+directive regulation default;
+
+// Components require an activator to be activated
+eBmp2I[!](0..8); eBmp2II[!](0..8); ecanWntI[!](0..8); ecanWntII[!](0..8); Bmp2[!](0..8); canWnt[!](0..8); Dkk1[!](0..8); Fgf8[!](0..8); Foxc12[!](0..8); GATAs[!](0..8); Isl1[!](0..8); Mesp1[!](0..8); Nkx25[!](0..8); Tbx1[!](0..8); Tbx5[!](0..8); 
+
+// Adding all interactions as possible not previously included between 11 key regulators
+
+Bmp2	   canWnt  negative	optional;
+Bmp2       canWnt  positive	optional;
+Bmp2	   Dkk1    negative	optional;
+Bmp2       Dkk1    positive	optional;
+Bmp2	   Fgf8    negative	optional;
+Bmp2       Fgf8    positive	optional;
+Bmp2	   Foxc12  negative	optional;
+Bmp2       Foxc12  positive	optional;
+Bmp2	   GATAs   negative	optional;
+Bmp2       GATAs   positive	optional;
+Bmp2	   Isl1    negative	optional;
+Bmp2       Isl1    positive	optional;
+Bmp2	   Mesp1   negative	optional;
+Bmp2       Mesp1   positive	optional;
+Bmp2	   Nkx25   negative	optional;
+Bmp2       Nkx25   positive;
+Bmp2	   Tbx1    negative	optional;
+Bmp2       Tbx1    positive	optional;
+Bmp2	   Tbx5    negative	optional;
+Bmp2       Tbx5    positive	optional;
+canWnt     Bmp2	   negative;
+canWnt     Bmp2	   positive	optional;
+canWnt     Dkk1    negative	optional;
+canWnt     Dkk1    positive;
+canWnt     Fgf8    negative	optional;
+canWnt     Fgf8    positive	optional;
+canWnt     Foxc12  negative	optional;
+canWnt     Foxc12  positive;
+canWnt     GATAs   negative	optional;
+canWnt     GATAs   positive	optional;
+canWnt     Isl1    negative	optional;
+canWnt     Isl1    positive;
+canWnt     Mesp1   negative	optional;
+canWnt     Mesp1   positive;
+canWnt     Nkx25   negative	optional;
+canWnt     Nkx25   positive	optional;
+canWnt     Tbx1    negative	optional;
+canWnt     Tbx1    positive	optional;
+canWnt     Tbx5    negative;
+canWnt     Tbx5    positive	optional;
+Dkk1       Bmp2	   negative	optional;
+Dkk1       Bmp2	   positive	optional;
+Dkk1       canWnt  negative	optional;
+Dkk1       canWnt  positive	optional;
+Dkk1       Fgf8    negative	optional;
+Dkk1       Fgf8    positive	optional;
+Dkk1       Foxc12  negative	optional;
+Dkk1       Foxc12  positive	optional;
+Dkk1       GATAs   negative	optional;
+Dkk1       GATAs   positive	optional;
+Dkk1       Isl1    negative	optional;
+Dkk1       Isl1    positive	optional;
+Dkk1       Mesp1   negative	optional;
+Dkk1       Mesp1   positive	optional;
+Dkk1       Nkx25   negative	optional;
+Dkk1       Nkx25   positive;
+Dkk1       Tbx1    negative	optional;
+Dkk1       Tbx1    positive	optional;
+Dkk1       Tbx5    negative;
+Dkk1       Tbx5    positive	optional;
+Fgf8       Bmp2	   negative	optional;
+Fgf8       Bmp2	   positive	optional;
+Fgf8       canWnt  negative	optional;
+Fgf8       canWnt  positive	optional;
+Fgf8       Dkk1    negative	optional;
+Fgf8       Dkk1    positive	optional;
+Fgf8       Foxc12  negative	optional;
+Fgf8       Foxc12  positive	optional;
+Fgf8       GATAs   negative	optional;
+Fgf8       GATAs   positive	optional;
+Fgf8       Isl1    negative	optional;
+Fgf8       Isl1    positive;
+Fgf8       Mesp1   negative	optional;
+Fgf8       Mesp1   positive	optional;
+Fgf8       Nkx25   negative	optional;
+Fgf8       Nkx25   positive	optional;
+Fgf8       Tbx1    negative	optional;
+Fgf8       Tbx1    positive	optional;
+Fgf8       Tbx5    negative	optional;
+Fgf8       Tbx5    positive	optional;
+Foxc12     Bmp2	   negative	optional;
+Foxc12     Bmp2	   positive	optional;
+Foxc12     canWnt  negative	optional;
+Foxc12     canWnt  positive	optional;
+Foxc12     Dkk1    negative	optional;
+Foxc12     Dkk1    positive	optional;
+Foxc12     Fgf8    negative	optional;
+Foxc12     Fgf8    positive;
+Foxc12     GATAs   negative	optional;
+Foxc12     GATAs   positive	optional;
+Foxc12     Isl1    negative	optional;
+Foxc12     Isl1    positive	optional;
+Foxc12     Mesp1   negative	optional;
+Foxc12     Mesp1   positive	optional;
+Foxc12     Nkx25   negative	optional;
+Foxc12     Nkx25   positive	optional;
+Foxc12     Tbx1    negative	optional;
+Foxc12     Tbx1    positive;
+Foxc12     Tbx5    negative	optional;
+Foxc12     Tbx5    positive	optional;
+GATAs      Bmp2	   negative	optional;
+GATAs      Bmp2	   positive	optional;
+GATAs      canWnt  negative	optional;
+GATAs      canWnt  positive	optional;
+GATAs      Dkk1    negative	optional;
+GATAs      Dkk1    positive	optional;
+GATAs      Foxc12  negative	optional;
+GATAs      Foxc12  positive	optional;
+GATAs      Fgf8    negative	optional;
+GATAs      Fgf8    positive	optional;
+GATAs      Isl1    negative	optional;
+GATAs      Isl1    positive	optional;
+GATAs      Mesp1   negative	optional;
+GATAs      Mesp1   positive	optional;
+GATAs      Nkx25   negative	optional;
+GATAs      Nkx25   positive;
+GATAs      Tbx1    negative	optional;
+GATAs      Tbx1    positive	optional;
+GATAs      Tbx5    negative	optional;
+GATAs      Tbx5    positive	optional;
+Isl1       Bmp2	   negative	optional;
+Isl1       Bmp2	   positive	optional;
+Isl1       canWnt  negative	optional;
+Isl1       canWnt  positive	optional;
+Isl1       Dkk1    negative	optional;
+Isl1       Dkk1    positive	optional;
+Isl1       Foxc12  negative	optional;
+Isl1       Foxc12  positive	optional;
+Isl1       Fgf8    negative	optional;
+Isl1       Fgf8    positive	optional;
+Isl1       GATAs   negative	optional;
+Isl1       GATAs   positive	optional;
+Isl1       Mesp1   negative	optional;
+Isl1       Mesp1   positive	optional;
+Isl1       Nkx25   negative	optional;
+Isl1       Nkx25   positive;
+Isl1       Tbx1    negative	optional;
+Isl1       Tbx1    positive	optional;
+Isl1       Tbx5    negative	optional;
+Isl1       Tbx5    positive	optional;
+Mesp1      Bmp2	   negative	optional;
+Mesp1      Bmp2	   positive	optional;
+Mesp1      canWnt  negative	optional;
+Mesp1      canWnt  positive	optional;
+Mesp1      Dkk1    negative	optional;
+Mesp1      Dkk1    positive;
+Mesp1      Foxc12  negative	optional;
+Mesp1      Foxc12  positive	optional;
+Mesp1      Fgf8    negative;
+Mesp1      Fgf8    positive	optional;
+Mesp1      GATAs   negative	optional;
+Mesp1      GATAs   positive;
+Mesp1      Isl1    negative	optional;
+Mesp1      Isl1    positive;
+Mesp1      Nkx25   negative	optional;
+Mesp1      Nkx25   positive;
+Mesp1      Tbx1    negative	optional;
+Mesp1      Tbx1    positive	optional;
+Mesp1      Tbx5    negative	optional;
+Mesp1      Tbx5    positive;
+Nkx25      Bmp2	   negative	optional;
+Nkx25      Bmp2	   positive	optional;
+Nkx25      canWnt  negative	optional;
+Nkx25      canWnt  positive	optional;
+Nkx25      Dkk1    negative	optional;
+Nkx25      Dkk1    positive	optional;
+Nkx25      Foxc12  negative	optional;
+Nkx25      Foxc12  positive	optional;
+Nkx25      Fgf8    negative	optional;
+Nkx25      Fgf8    positive	optional;
+Nkx25      GATAs   negative	optional;
+Nkx25      GATAs   positive;
+Nkx25      Isl1    negative	optional;
+Nkx25      Isl1    positive	optional;
+Nkx25      Mesp1   negative	optional;
+Nkx25      Mesp1   positive	optional;
+Nkx25      Tbx1    negative	optional;
+Nkx25      Tbx1    positive	optional;
+Nkx25      Tbx5    negative	optional;
+Nkx25      Tbx5    positive	;
+Tbx1       Bmp2	   negative	optional;
+Tbx1       Bmp2	   positive	optional;
+Tbx1       canWnt  negative	optional;
+Tbx1       canWnt  positive	optional;
+Tbx1       Dkk1    negative	optional;
+Tbx1       Dkk1    positive	optional;
+Tbx1       Foxc12  negative	optional;
+Tbx1       Foxc12  positive	optional;
+Tbx1       Fgf8    negative	optional;
+Tbx1       Fgf8    positive;
+Tbx1       GATAs   negative	optional;
+Tbx1       GATAs   positive	optional;
+Tbx1       Isl1    negative	optional;
+Tbx1       Isl1    positive;
+Tbx1       Mesp1   negative	optional;
+Tbx1       Mesp1   positive	optional;
+Tbx1       Nkx25   negative	optional;
+Tbx1       Nkx25   positive;
+Tbx1       Tbx5    negative;
+Tbx1       Tbx5    positive	optional;
+Tbx5       Bmp2	   negative	optional;
+Tbx5       Bmp2	   positive	optional;
+Tbx5       canWnt  negative	optional;
+Tbx5       canWnt  positive	optional;
+Tbx5       Dkk1    negative	optional;
+Tbx5       Dkk1    positive	optional;
+Tbx5       Foxc12  negative	optional;
+Tbx5       Foxc12  positive	optional;
+Tbx5       Fgf8    negative	optional;
+Tbx5       Fgf8    positive	optional;
+Tbx5       GATAs   negative	optional;
+Tbx5       GATAs   positive;
+Tbx5       Isl1    negative	optional;
+Tbx5       Isl1    positive	optional;
+Tbx5       Mesp1   negative	optional;
+Tbx5       Mesp1   positive	optional;
+Tbx5       Nkx25   negative	optional;
+Tbx5       Nkx25   positive;
+Tbx5       Tbx1    negative	optional;
+Tbx5       Tbx1    positive	optional;
+Tbx5       Tbx5    positive;
+eBmp2I     eBmp2I  positive;
+eBmp2I     eBmp2II positive;
+ecanWntI   ecanWntI positive;
+ecanWntI   ecanWntII positive;
+eBmp2II    Bmp2	   positive;
+ecanWntII  canWnt  positive;
+ecanWntII  Isl1    positive;
+eBmp2II    Mesp1   negative;
+ecanWntII  Foxc12  positive;
+eBmp2II    Dkk1    negative;
+
+
+// Differentiation towards the first heart field
+#ExperimentFHF[0] |= $InitialFHF;
+#ExperimentFHF[0] |= $JustBmp2I;
+#ExperimentFHF[1] |= $Transita;
+#ExperimentFHF[1] |= $JustBmp2IAndBmp2II;
+#ExperimentFHF[2] |= $Transitb;
+#ExperimentFHF[2] |= $JustBmp2IAndBmp2II;
+#ExperimentFHF[3] |= $JustBmp2IAndBmp2II; 
+#ExperimentFHF[3] |= $FinalFHF and fixpoint(#ExperimentFHF[3]);
+
+// Differentiation towards the second heart field
+#ExperimentSHF[0] |= $InitialSHF;
+#ExperimentSHF[0] |= $JustBmp2IAndECanWntI;
+#ExperimentSHF[1] |= $Transita;
+#ExperimentSHF[1] |= $AllSignals;
+#ExperimentSHF[2] |= $Transitb;
+#ExperimentSHF[2] |= $AllSignals;
+#ExperimentSHF[3] |= $AllSignals;
+#ExperimentSHF[3] |= $FinalSHF and fixpoint(#ExperimentSHF[3]);
+
+// Gene expression patterns from Herrmann et al
+
+$InitialFHF :=
+{
+ eBmp2I = 1 and 
+ eBmp2II = 0 and 
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ canWnt = 1 and
+ Foxc12 = 0 and 
+ GATAs = 0 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0
+};
+
+$FinalFHF :=
+{
+ Bmp2   = 1 and
+ Fgf8   = 0 and 
+ Foxc12 = 0 and 
+ GATAs = 1 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 1 and
+ Tbx1 = 0 and 
+ Tbx5 = 1 
+};
+
+$InitialSHF :=
+{
+ canWnt = 1 and
+ Foxc12 = 0 and 
+ GATAs = 0 and
+ Isl1 = 0 and 
+ Mesp1 = 0 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0 
+};
+
+$FinalSHF :=
+{
+ canWnt = 1 and 
+ Fgf8   = 1 and 
+ Foxc12 = 1 and 
+ GATAs = 1 and
+ Isl1 = 1 and 
+ Mesp1 = 0 and 
+ Nkx25 = 1 and
+ Tbx1 = 1 and 
+ Tbx5 = 0 
+};
+
+$Transita :=
+{ 
+ Foxc12 = 0 and 
+ Mesp1 = 1 and 
+ Nkx25 = 0 and
+ Tbx1 = 0 and 
+ Tbx5 = 0 
+};
+
+$Transitb :=
+{
+ canWnt = 0 and   
+ GATAs = 1 and
+ Isl1 = 1 and 
+ Tbx5 = 1 
+};
+
+$AllSignals :=
+{
+ ecanWntI = 1 and
+ ecanWntII = 1 and
+ eBmp2I = 1 and 
+ eBmp2II = 1 
+};
+
+$JustBmp2I :=
+{
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 0 
+};
+
+$JustBmp2IAndECanWntI :=
+{
+ ecanWntI = 1 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 0 
+};
+
+$JustBmp2IAndBmp2II :=
+{
+ ecanWntI = 0 and
+ ecanWntII = 0 and
+ eBmp2I = 1 and 
+ eBmp2II = 1 
+};

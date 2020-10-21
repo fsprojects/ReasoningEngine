@@ -1,0 +1,216 @@
+DUSP10(0..17); PPTC7(0..17); PPP3CA(0..17); PTPN13(0..17); DUSP6[-](0..17); PTPN1(0..17);
+
+// Interactions
+DUSP10	DUSP10	positive	optional;
+PPTC7	PPTC7	positive	optional;
+PPP3CA	PPP3CA	positive	optional;
+PTPN13	PTPN13	positive	optional;
+DUSP6	DUSP6	positive	optional;
+PTPN1	PTPN1	positive	optional;
+DUSP10	PPTC7	 positive optional; 
+DUSP10	PPTC7	 negative optional; 
+DUSP10	PPP3CA	 positive optional; 
+DUSP10	PPP3CA	 negative optional; 
+DUSP10	PTPN13	 positive optional; 
+DUSP10	PTPN13	 negative optional; 
+DUSP10	DUSP6	 positive optional; 
+DUSP10	DUSP6	 negative optional; 
+DUSP10	PTPN1	 positive optional; 
+DUSP10	PTPN1	 negative optional; 
+PPTC7	DUSP10	 positive optional; 
+PPTC7	DUSP10	 negative optional; 
+PPTC7	PPP3CA	 positive optional; 
+PPTC7	PPP3CA	 negative optional; 
+PPTC7	PTPN13	 positive optional; 
+PPTC7	PTPN13	 negative optional; 
+PPTC7	DUSP6	 positive optional; 
+PPTC7	DUSP6	 negative optional; 
+PPTC7	PTPN1	 positive optional; 
+PPTC7	PTPN1	 negative optional; 
+PPP3CA	DUSP10	 positive optional; 
+PPP3CA	DUSP10	 negative optional; 
+PPP3CA	PPTC7	 positive optional; 
+PPP3CA	PPTC7	 negative optional; 
+PPP3CA	PTPN13	 positive optional; 
+PPP3CA	PTPN13	 negative optional; 
+PPP3CA	DUSP6	 positive optional; 
+PPP3CA	DUSP6	 negative optional; 
+PPP3CA	PTPN1	 positive optional; 
+PPP3CA	PTPN1	 negative optional; 
+PTPN13	DUSP10	 positive optional; 
+PTPN13	DUSP10	 negative optional; 
+PTPN13	PPTC7	 positive optional; 
+PTPN13	PPTC7	 negative optional; 
+PTPN13	PPP3CA	 positive optional; 
+PTPN13	PPP3CA	 negative optional; 
+PTPN13	DUSP6	 positive optional; 
+PTPN13	DUSP6	 negative optional; 
+PTPN13	PTPN1	 positive optional; 
+PTPN13	PTPN1	 negative optional; 
+DUSP6	DUSP10	 positive optional; 
+DUSP6	DUSP10	 negative optional; 
+DUSP6	PPTC7	 positive optional; 
+DUSP6	PPTC7	 negative optional; 
+DUSP6	PPP3CA	 positive optional; 
+DUSP6	PPP3CA	 negative optional; 
+DUSP6	PTPN13	 positive optional; 
+DUSP6	PTPN13	 negative optional; 
+DUSP6	PTPN1	 positive optional; 
+DUSP6	PTPN1	 negative optional; 
+PTPN1	DUSP10	 positive optional; 
+PTPN1	DUSP10	 negative optional; 
+PTPN1	PPTC7	 positive optional; 
+PTPN1	PPTC7	 negative optional; 
+PTPN1	PPP3CA	 positive optional; 
+PTPN1	PPP3CA	 negative optional; 
+PTPN1	PTPN13	 positive optional; 
+PTPN1	PTPN13	 negative optional; 
+PTPN1	DUSP6	 positive optional; 
+PTPN1	DUSP6	 negative optional;
+
+// Define gene expression patterns at each state
+
+$GeneExpressionZeroHour :=
+{
+DUSP10 = 0 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 1 and
+PTPN1 = 1
+};
+
+$GeneExpressionFourthHour :=
+{
+DUSP10 = 1 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 1 and
+PTPN1 = 1
+};
+
+$GeneExpressionEighthHour :=
+{
+DUSP10 = 1 and
+PPP3CA = 1 and 
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionTwelfthHour :=
+{
+DUSP10 = 1 and
+PPTC7 = 0 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+
+$GeneExpressionZeroHourWithDusp6KD :=
+{
+DUSP10 = 0 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionFourthHourWithDusp6KD :=
+{
+DUSP10 = 1 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionEighthHourWithDusp6KD :=
+{
+DUSP10 = 1 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionTwelfthHourWithDusp6KD :=
+{
+DUSP10 = 1 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+
+$GeneExpressionFourthHourUnderPKC :=
+{
+DUSP10 = 1 and
+PPTC7 = 0 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionEighthHourUnderPKC :=
+{
+DUSP10 = 1 and
+PPTC7 = 0 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 0 and
+PTPN1 = 1
+};
+
+$GeneExpressionTwelfthHourUnderPKC :=
+{
+DUSP10 = 1 and
+PPTC7 = 1 and 
+PPP3CA = 1 and 
+PTPN13 = 1 and
+DUSP6 = 1 and
+PTPN1 = 1
+};
+
+$Dusp6KD := 
+{
+KO(DUSP6) = 1
+};
+
+$NoKnockdowns := 
+{
+KO(DUSP6) = 0
+};
+
+// Define the experimental observations 
+
+#Experiment1[0] |= $NoKnockdowns;
+#Experiment1[0] |= $GeneExpressionZeroHour;
+#Experiment1[4] |= $GeneExpressionFourthHour;
+#Experiment1[8] |= $GeneExpressionEighthHour;
+#Experiment1[12] |= $GeneExpressionTwelfthHour;
+#Experiment1[13] |= $GeneExpressionTwelfthHour;
+
+// Drug treatment experiments
+
+#TSATreatment[0] |= $Dusp6KD;
+#TSATreatment[0] |= $GeneExpressionZeroHourWithDusp6KD;
+#TSATreatment[4] |= $GeneExpressionFourthHourWithDusp6KD;
+#TSATreatment[8] |= $GeneExpressionEighthHourWithDusp6KD;
+#TSATreatment[12] |= $GeneExpressionTwelfthHourWithDusp6KD;
+#TSATreatment[13] |= $GeneExpressionTwelfthHourWithDusp6KD;
+
+#PKCTreatment[0] |= $NoKnockdowns;
+#PKCTreatment[0] |= $GeneExpressionZeroHour;
+#PKCTreatment[4] |= $GeneExpressionFourthHourUnderPKC;
+#PKCTreatment[8] |= $GeneExpressionEighthHourUnderPKC;
+#PKCTreatment[12] |= $GeneExpressionTwelfthHourUnderPKC;
+#PKCTreatment[13] |= $GeneExpressionTwelfthHourUnderPKC;

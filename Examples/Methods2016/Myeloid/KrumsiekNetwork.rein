@@ -1,0 +1,151 @@
+// -------------------------------------------------------------------------------------------------------
+// Model: Myeloid progenitor differentiation
+// Interactions: Topology from Krumsiek et al (2011) where all interactions are marked as definite
+// Regulation conditions: Activation is required
+// Dynamics: Asynchronous
+// Experimental observations: Initial progenitor expression pattern and four stable expression patterns 
+//                            corresponding to different cell types as described in Krumsiek et al (2011)
+//                            (GATA-2 expression in megakaryocytes is corrected as active)
+// --------------------------------------------------------------------------------------------------------
+
+//asynchronous dynamics
+directive updates async;
+
+//default regulation conditions
+directive regulation default;
+
+//components: require an activator for each component and restrict the regulation conditions
+GATA2[!](0..8); GATA1[!](0..8); FOG1[!](0..8); 
+EKLF[!](0..8); Fli1[!](0..8); SCL[!](0..8); 
+CEBPa[!](0..8); PU1[!](0..8); cjun[!](0..8); 
+EgrNab[!](0..8); Gfi1[!](0..8); 
+
+//interactions from Krumsiek et al (2011) marked as definite
+FOG1	GATA2	negative;
+GATA1	GATA2	negative;
+GATA1	PU1	negative;
+GATA1	GATA1	positive;
+GATA1	FOG1	positive;
+GATA1	Fli1	positive;
+GATA1	EKLF	positive;
+GATA1	SCL	positive;
+GATA2	GATA2	positive;
+GATA2	GATA1	positive;
+GATA2	PU1	negative;
+PU1	GATA2	negative;
+PU1	PU1	positive;
+PU1	GATA1	negative;
+PU1	SCL	negative;
+PU1	cjun 	positive;
+PU1	EgrNab	positive;
+Fli1	GATA1	positive;
+Fli1	EKLF	negative;
+EKLF	Fli1	negative;
+cjun	EgrNab	positive;
+EgrNab	Gfi1	negative;
+Gfi1	EgrNab	negative;
+CEBPa	CEBPa	positive;
+CEBPa	PU1	positive;
+CEBPa	Gfi1	positive;
+GATA1	CEBPa	negative;
+FOG1	CEBPa	negative;
+SCL	CEBPa	negative;
+Gfi1	cjun	negative;
+
+
+//gene expression patterns from Krumsiek et al (2011) with GATA-2 active in megakaryocites
+$Erythrocyte := {
+ GATA2	= 0 and
+ GATA1	= 1 and
+ FOG1	= 1 and
+ EKLF	= 1 and
+ Fli1	= 0 and
+ SCL	= 1 and
+ CEBPa	= 0 and
+ PU1	= 0 and
+ cjun	= 0 and
+ EgrNab = 0 and
+ Gfi1	= 0
+};
+
+
+$Megakaryocyte := {
+ GATA2	= 1 and
+ GATA1	= 1 and
+ FOG1 	= 1 and
+ EKLF	= 0 and
+ Fli1	= 1 and
+ SCL	= 1 and
+ CEBPa	= 0 and
+ PU1	= 0 and
+ cjun	= 0 and
+ EgrNab = 0 and
+ Gfi1	= 0
+};
+
+
+$Monocyte := {
+ GATA2	= 0 and
+ GATA1	= 0 and
+ FOG1 	= 0 and
+ EKLF	= 0 and
+ Fli1	= 0 and
+ SCL	= 0 and
+ CEBPa	= 1 and
+ PU1	= 1 and
+ cjun	= 1 and
+ EgrNab = 1 and
+ Gfi1	= 0
+};
+
+
+$Granulocyte := {
+ GATA2	= 0 and
+ GATA1	= 0 and
+ FOG1 	= 0 and
+ EKLF	= 0 and
+ Fli1	= 0 and
+ SCL	= 0 and
+ CEBPa	= 1 and
+ PU1	= 1 and
+ cjun	= 0 and
+ EgrNab = 0 and
+ Gfi1	= 1
+};
+
+$Progenitor := {
+ GATA2	= 1 and
+ GATA1	= 0 and
+ FOG1 	= 0 and
+ EKLF	= 0 and
+ Fli1	= 0 and
+ SCL	= 0 and
+ CEBPa	= 1 and
+ PU1	= 1 and
+ cjun	= 0 and
+ EgrNab = 0 and
+ Gfi1	= 0
+};
+
+
+//experimental observations
+
+(#ErythrocyteDiff[0] |= $Progenitor)  and 
+(#ErythrocyteDiff[20] |= $Erythrocyte) and 
+fixpoint(#ErythrocyteDiff[20])
+"A progenitor cell differentiates into an erythrocyte and stabilizes";
+
+(#MegakaryocyteDiff[0] |= $Progenitor)  and 
+(#MegakaryocyteDiff[20] |= $Megakaryocyte) and 
+fixpoint(#MegakaryocyteDiff[20])
+"A progenitor cell differentiates into a megakaryocyte and stabilizes";
+
+(#MonocyteDiff[0] |= $Progenitor)  and 
+(#MonocyteDiff[20] |= $Monocyte) and 
+fixpoint(#MonocyteDiff[20])
+"A progenitor cell differentiates into a monocyte and stabilizes";
+
+(#GranulocyteDiff[0] |= $Progenitor)  and 
+(#GranulocyteDiff[20] |= $Granulocyte) and 
+fixpoint(#GranulocyteDiff[20])
+"A progenitor cell differentiates into a granulocyte and stabilizes";

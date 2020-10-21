@@ -252,10 +252,10 @@ type REIN =
         |> model.AddInteraction
     
     static member  AddDefiniteInteraction (s:string) (s':string) positive (model:Microsoft.Research.REIN.REIN.Problem) = 
-        REIN.AddInteraction s s' positive false model
+        REIN.AddInteraction s s' positive true model
 
     static member  AddOptionalInteraction (s:string) (s':string) positive (model:Microsoft.Research.REIN.REIN.Problem) = 
-        REIN.AddInteraction s s' positive true model
+        REIN.AddInteraction s s' positive false model
     
 
     static member  SetInitial experiment name value (model:Microsoft.Research.REIN.REIN.Problem) =   
@@ -439,8 +439,8 @@ type REIN =
         |> Lib.HtmlOutput
 
     static member DrawInteractions required disallowed = 
-        let rStr = required |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
-        let dStr = disallowed |> Seq.map (fun i -> i.ToString()) |> Seq.reduce(fun a b -> a + "<br>" + b)
+        let rStr = required |> Seq.map (fun i -> i.ToString()) |> String.concat "<br>"
+        let dStr = disallowed |> Seq.map (fun i -> i.ToString()) |> String.concat "<br>"
         sprintf "<table><tr><th>Required Interactions</th><th>Disallowed Interactions</th></tr><tr><td>%s</td><td>%s</td>" rStr dStr
         |> Lib.HtmlOutput
 
@@ -478,3 +478,5 @@ type REIN =
         |> sprintf "<table>%s</table>"
         |> Lib.HtmlOutput
             
+    static member MakeSynchronous (model:Microsoft.Research.REIN.REIN.Problem) = 
+        {model with settings = {model.settings with updates = Microsoft.Research.REIN.Settings.Updates.Synchronous}}
