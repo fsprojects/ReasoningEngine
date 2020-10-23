@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -19,6 +19,12 @@
     <None Include="app.config" />
     <None Include="paket.references" />
     <None Include="ReLoad.fsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutomaticGraphLayout" Version="1.1.9" />
+    <PackageReference Include="AutomaticGraphLayout.Drawing" Version="1.1.9" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0010" />
+    <PackageReference Include="XPlot.Plotly" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReasoningEngine\ReasoningEngine.fsproj" />
