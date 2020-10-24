@@ -15,13 +15,13 @@ A number of example notebooks containing results from various case studies and p
 * [REIN](Examples/REIN.ipynb): Examples of using the RE:IN language to study stem cell decision making[<sup>1</sup>][Dunn2014].
 * [YordanovDunnNSB2016](Examples/YordanovDunnNSB2016.ipynb): Additional exaples of using the RE:IN language to analyze various biological systems[<sup>2</sup>][Yordanov2016].
 * [RESIN](Examples/RESIN.ipynb): Illustrates an extension of the RE:IN methodology that supports reasoning about switching interaction networks[<sup>3</sup>][Yordanov2016].
-* [Motifs](Examples/Motifs.ipynb): Illustrates an extension of the RE:IN methodology that enables reasoning about function (dynamical behaviour) and structure (network motifs) of biological interaction networks[<sup>4</sup>][Methods].
+* [Motifs](Examples/Motifs.ipynb): Illustrates an extension of the RE:IN methodology that enables reasoning about function (dynamical behaviour) and structure (network motifs) of biological interaction networks[<sup>4</sup>][Motifs].
 
 [Dunn2014]: https://science.sciencemag.org/content/344/6188/1156.full
 [Yordanov2016]: https://www.nature.com/articles/npjsba201610
 [Z3]: https://github.com/Z3Prover/z3
 [RESIN]: https://www.sciencedirect.com/science/article/pii/S0303264716300338
-[Methods]: https://pubmed.ncbi.nlm.nih.gov/31722483/
+[Motifs]: https://pubmed.ncbi.nlm.nih.gov/31722483/
 
 ## Tool installation
 The Reasoning Engine tool are built using F# and there are install instructions available at https://fsharp.org/

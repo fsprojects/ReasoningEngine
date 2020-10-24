@@ -225,13 +225,13 @@ type Z3Encoding<'a> =
     
 
     static member MkEncoding encFn (model:Model) =      
-        Microsoft.Z3.Global.SetParameter("model.compact","false") //TODO: without this setting we get wrong models with Z3 4.8.1
+        //Microsoft.Z3.Global.SetParameter("model.compact","false") //TODO: without this setting we get wrong models with Z3 4.8.1
 
         let z3 = new Context() //construct the context                      
         encFn z3 (model.Vars()) model.system.varDefs model.constraints.predicates //construct the encoding and return the encoded model 
 
     static member Encode (model:Model) =         
-        Microsoft.Z3.Global.SetParameter("model.compact","false") //TODO: without this setting we get wrong models with Z3 4.8.1
+        //Microsoft.Z3.Global.SetParameter("model.compact","false") //TODO: without this setting we get wrong models with Z3 4.8.1
         let z3 = new Context() //construct the context            
         //construct the encoding and return the encoded model 
         match model.settings.encoding with

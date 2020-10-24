@@ -17,8 +17,14 @@ type MSAGL =
 
         let geometryGraph = graph.GeometryGraph
 
-        //The SVG writer hardcodes Arial 16.0
-        let font = SixLabors.Fonts.SystemFonts.CreateFont("Arial", 16.f)
+        let font_family = ref null
+        if not (SixLabors.Fonts.SystemFonts.TryFind("Arial", font_family)) then
+            if not (SixLabors.Fonts.SystemFonts.TryFind("Liberation Sans", font_family)) then begin
+                let ffit = SixLabors.Fonts.SystemFonts.Families.GetEnumerator()
+                if (ffit.MoveNext()) then
+                    font_family := ffit.Current
+            end
+        let font = new SixLabors.Fonts.Font(!font_family, 16.f)
         let options = new SixLabors.Fonts.RendererOptions(font)
 
         //use bitmap = new System.Drawing.Bitmap(1000, 1000)

@@ -20,7 +20,7 @@ group NETSTANDARD
 
     nuget BenchmarkDotNet ~> 0.11.4
 
-    nuget Microsoft.Z3.x64 4.8.4
+    nuget Microsoft.Z3.x64 4.8.9
     nuget Microsoft.ML.Probabilistic >= 0.3.1810.501
     nuget Microsoft.ML.Probabilistic.Compiler
     nuget Microsoft.ML.Probabilistic.Learners

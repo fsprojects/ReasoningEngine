@@ -1024,7 +1024,7 @@ NUGET
       System.Memory (>= 4.5.3)
       System.Security.AccessControl (>= 4.7)
       System.Security.Principal.Windows (>= 4.7)
-    Microsoft.Z3.x64 (4.8.4)
+    Microsoft.Z3.x64 (4.8.9)
     Newtonsoft.Json (12.0.2)
     runtime.native.System (4.3.1)
       Microsoft.NETCore.Platforms (>= 1.1.1)
