@@ -24,6 +24,14 @@ A number of example notebooks containing results from various case studies and p
 [Motifs]: https://pubmed.ncbi.nlm.nih.gov/31722483/
 
 ## Tool installation
-The Reasoning Engine tool are built using F# and there are install instructions available at https://fsharp.org/
-
-We provide [example](Examples) Jupyter notebooks using either https://github.com/dotnet/interactive or https://github.com/fsprojects/IfSharp see those projects for installation instructions.
+The Reasoning Engine tools are built using F# and there are install instructions available at https://fsharp.org/. Executing the provided [example Jupyter notebooks](Examples) requires either [IfSharp](https://github.com/fsprojects/IfSharp) or [.NET Interactive](https://github.com/dotnet/interactive). All examples are provided as IfSharp notebooks and several notebooks are also converted to .NET Interactive as a proof of concept (work in progress). Sample steps for setting up and executing the IfSharp notebooks locally are outlined below:
+1. Download and install required tools, including
+    1. [Git](https://git-scm.com/)
+    1. [.NET Core](https://dotnet.microsoft.com/download/dotnet)
+1. Clone the ReasoningEngine repo locally (e.g. `git clone https://github.com/fsprojects/ReasoningEngine.git`)
+1. Follow the installation instructions on the [IfSharp project page](https://github.com/fsprojects/IfSharp) - this includes installing [Anaconda](https://www.anaconda.com/) (e.g. the version for Python 3.8)
+1. Build the Reasoning Engine library and tools. In the top ReasoningEngine project folder execute the following:
+    1. `dotnet tool restore`
+    1. `dotnet build --configuration Release ./RENotebookAPI/RENotebookAPI.fsproj`
+1. Start IfSharp in the `ReasoningEngine/Examples` folder using `jupyter notebook`
+1. Open any of the IfSharp notebooks (excluding `ReasoningEngineBasicsDotNetInterative.ipynb` and `REINDotNetInteractive.ipynb`) and execute the cells in order
