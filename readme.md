@@ -27,3 +27,7 @@ A number of example notebooks containing results from various case studies and p
 The Reasoning Engine tool are built using F# and there are install instructions available at https://fsharp.org/
 
 We provide [example](Examples) Jupyter notebooks using either https://github.com/dotnet/interactive or https://github.com/fsprojects/IfSharp see those projects for installation instructions.
+
+Recent papers using REIL:
+
+[AHK22]: https://doi.org/10.1016/j.biosystems.2022.104672
