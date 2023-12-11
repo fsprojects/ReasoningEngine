@@ -6,7 +6,6 @@ open Microsoft.Research.ReasoningEngine.Var
 open System.Collections.Generic
 
 
-#indent "off"
 
 type Line = 
 	| Assign of string * BExpr

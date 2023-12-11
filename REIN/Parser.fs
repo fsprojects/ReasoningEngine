@@ -5,27 +5,27 @@ open FSharp.Text.Lexing
 open FSharp.Text.Parsing.ParseHelpers
 # 1 "Parser.fsy"
 
+
+
 open System
 open Microsoft.Research.ReasoningEngine.Constraint
 open Microsoft.Research.ReasoningEngine.Var
 open System.Collections.Generic
 
-#indent "off"
-
 type Line = 
-	|Assign of string * BExpr
-	|Assert of BExpr  * string option	 //boolean expression * description	option
-	|Interaction of string * string * bool * bool //source * target * positive? * definite?
-	|Species of string * int list option * bool * bool * bool //name * allowed logics * KO? * FE? * must be activated
-	|Directive of Directive //possibly, create more structured directives
-	
+    |Assign of string * BExpr
+    |Assert of BExpr  * string option //boolean expression * description    option
+    |Interaction of string * string * bool * bool //source * target * positive? * definite?
+    |Species of string * int list option * bool * bool * bool //name * allowed logics * KO? * FE? * must be activated
+    |Directive of Directive //possibly, create more structured directives
+    
 and Directive = 
-	|Uniqueness of Settings.Uniqueness
+    |Uniqueness of Settings.Uniqueness
     |Interaction_limit of int option
     |Regulation of Settings.RegulationConditions
     |Traj_length of int
-    |Updates of Settings.Updates		
-	|PreventRepeats
+    |Updates of Settings.Updates        
+    |PreventRepeats
 
 # 30 "Parser.fs"
 // This type is the type of tokens accepted by the parser
@@ -590,7 +590,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 70 "Parser.fsy"
-                                                         Assign(_1,_4)		  
+                                                         Assign(_1,_4)          
                    )
 # 70 "Parser.fsy"
                  : 'Line));
@@ -644,7 +644,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 77 "Parser.fsy"
-                                           Uniqueness(Settings.Model)		
+                                           Uniqueness(Settings.Model)        
                    )
 # 77 "Parser.fsy"
                  : 'Directive));
@@ -654,7 +654,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 78 "Parser.fsy"
-                                            Uniqueness(Settings.All)			
+                                            Uniqueness(Settings.All)            
                    )
 # 78 "Parser.fsy"
                  : 'Directive));
@@ -666,7 +666,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 79 "Parser.fsy"
-                                                    Uniqueness(Settings.Path(_3,_4))	
+                                                    Uniqueness(Settings.Path(_3,_4))    
                    )
 # 79 "Parser.fsy"
                  : 'Directive));
@@ -676,7 +676,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 80 "Parser.fsy"
-                                              Regulation(Settings.Default)		
+                                              Regulation(Settings.Default)        
                    )
 # 80 "Parser.fsy"
                  : 'Directive));
@@ -686,7 +686,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 81 "Parser.fsy"
-                                                 Regulation(Settings.Cardinality)	
+                                                 Regulation(Settings.Cardinality)    
                    )
 # 81 "Parser.fsy"
                  : 'Directive));
@@ -696,7 +696,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 82 "Parser.fsy"
-                                             Regulation(Settings.Legacy)		
+                                             Regulation(Settings.Legacy)        
                    )
 # 82 "Parser.fsy"
                  : 'Directive));
@@ -706,7 +706,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 83 "Parser.fsy"
-                                                 Regulation(Settings.NoThresholds)	
+                                                 Regulation(Settings.NoThresholds)    
                    )
 # 83 "Parser.fsy"
                  : 'Directive));
@@ -716,7 +716,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 84 "Parser.fsy"
-                                         Updates(Settings.Synchronous)		
+                                         Updates(Settings.Synchronous)        
                    )
 # 84 "Parser.fsy"
                  : 'Directive));
@@ -726,7 +726,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 85 "Parser.fsy"
-                                          Updates(Settings.Asynchronous)	
+                                          Updates(Settings.Asynchronous)    
                    )
 # 85 "Parser.fsy"
                  : 'Directive));
@@ -737,7 +737,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 86 "Parser.fsy"
-                                        Interaction_limit(Some(_2))		
+                                        Interaction_limit(Some(_2))        
                    )
 # 86 "Parser.fsy"
                  : 'Directive));
@@ -748,7 +748,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 87 "Parser.fsy"
-                                         Traj_length(_2)					
+                                         Traj_length(_2)                    
                    )
 # 87 "Parser.fsy"
                  : 'Directive));
