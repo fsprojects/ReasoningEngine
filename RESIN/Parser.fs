@@ -10,17 +10,17 @@ open Microsoft.Research.ReasoningEngine.Constraint
 open Microsoft.Research.ReasoningEngine.Var
 open System.Collections.Generic
 
-#indent "off"
+
 
 //arithmetic term
 type Line = 
-	|Assign of string * BExpr
-	|Sync of bool // synchronous update?  
-	|Assert of string * int * BExpr  * string * bool //experiment * step * expression * description * asyncFlag	
-	|Species of string * int list * bool * bool //name * allowed logics * KO? * FE?
-	|Cell of string * (string * string * bool * bool) seq // name * interactions; interactions are source * target * positive? * definite? * id
-	|Switch of string * string * BExpr// cell name 1 * cell name 2 * condition 
-	
+    |Assign of string * BExpr
+    |Sync of bool // synchronous update?  
+    |Assert of string * int * BExpr  * string * bool //experiment * step * expression * description * asyncFlag    
+    |Species of string * int list * bool * bool //name * allowed logics * KO? * FE?
+    |Cell of string * (string * string * bool * bool) seq // name * interactions; interactions are source * target * positive? * definite? * id
+    |Switch of string * string * BExpr// cell name 1 * cell name 2 * condition 
+    
 
 # 25 "Parser.fs"
 // This type is the type of tokens accepted by the parser

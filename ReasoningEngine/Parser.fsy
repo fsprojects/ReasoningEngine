@@ -3,12 +3,10 @@ open Var
 open Constraint
 open Dynamics
 
-#indent "off"
-
 type Line = 
-	|VarDecl of VarDef
-	|Assert of BExpr
-	|UpdateDecl of Update
+    |VarDecl of VarDef
+    |Assert of BExpr
+    |UpdateDecl of Update
 
 and Spec =
 	|Spec of Line list
@@ -56,7 +54,7 @@ start: Lines {Spec($1)}
 
 Lines:
 	|Line EOL Lines			{ $1::$3 }
-	|Line EOL				{ [$1]   }	    
+	|Line EOL				{ [$1]   }
 
 Line:	
 	|VarDecl							{VarDecl($1)}
@@ -91,13 +89,13 @@ Scope:
 
 Expr:
 	|NExpr						{NExpr($1)}
-	|BExpr						{BExpr($1)}	
+	|BExpr						{BExpr($1)}
 
 BTerm: 
 	| CExpr						{BTerm(BComp($1))}
     | TRUE						{BTerm(BConst(true))}
 	| FALSE						{BTerm(BConst(false))}
-	| LPAREN BExpr RPAREN		{$2}	
+	| LPAREN BExpr RPAREN		{$2}
 	| Var						{BTerm(BVar($1))}
 
 
@@ -111,29 +109,29 @@ BExpr:
 	| BExpr IMPLIES BExpr		{Imp($1,$3)}
     | BExpr AND BExpr			{And($1,$3)}
     | BExpr OR BExpr			{Or($1,$3)}
-    | NOT BTerm					{Not($2)}	
+    | NOT BTerm					{Not($2)}
 	
 CExpr:	
     |NExpr GT NExpr				{Gt($1,$3)}
-	|NExpr GE NExpr      		{Ge($1,$3)}	
-	|NExpr LT NExpr				{Lt($1,$3)}	
-	|NExpr LE NExpr				{Le($1,$3)}	
-	|NExpr EQ NExpr				{Eq($1,$3)}	
+	|NExpr GE NExpr      		{Ge($1,$3)}
+	|NExpr LT NExpr				{Lt($1,$3)}
+	|NExpr LE NExpr				{Le($1,$3)}
+	|NExpr EQ NExpr				{Eq($1,$3)}
 
 
 NTerm:       
 	| INT32									{NConst($1)}
 	| Var									{NVar($1)}
 	| CARD LPAREN BExprList RPAREN			{Card($3)}
-	| IF BExpr THEN NExpr ELSE NExpr		{Ite($2,$4,$6)}	
+	| IF BExpr THEN NExpr ELSE NExpr		{Ite($2,$4,$6)}
 
 NExpr: 
-	| LPAREN NExpr RPAREN				{ $2		  }		
+	| LPAREN NExpr RPAREN				{ $2		  }
     | NExpr PLUS  NExpr					{ Add($1, $3) }
     | NExpr MINUS NExpr					{ Sub($1, $3) }
     | NExpr MUL NExpr					{ Mul($1, $3) }
 	| MINUS NExpr						{ Neg($2)	  }
-	| NTerm								{ NTerm($1)	  }	
+	| NTerm								{ NTerm($1)	  }
 
 Var:
 	| VAR											{SysVar($1)}
@@ -142,7 +140,7 @@ Var:
 	| PATHNAME LSBRA INT32 RSBRA DOT VAR			{StateVar($1,$3,$6)}
 	| P LSBRA INT32 RSBRA DOT VAR					{AbsPStateVar($3,$6)}
 	| PATHNAME LSBRA K RSBRA DOT VAR				{AbsKStateVar($1,0,$6)}
-	| PATHNAME LSBRA K MINUS INT32 RSBRA DOT VAR	{AbsKStateVar($1,-$5,$8)}		
+	| PATHNAME LSBRA K MINUS INT32 RSBRA DOT VAR	{AbsKStateVar($1,-$5,$8)}
 	| P LSBRA K RSBRA DOT VAR						{AbsStateVar(0,$6)}
 	| P LSBRA K MINUS INT32 RSBRA DOT VAR			{AbsStateVar(-$5,$8)}
 
@@ -152,7 +150,7 @@ Var:
 //*************************************************
 
 Updates:
-	|UpdateR				{ [$1]   }	    
+	|UpdateR				{ [$1]   }
 	|UpdateR COMMA Updates	{ $1::$3 }
 
 
@@ -161,5 +159,5 @@ VarList:
 	| P LSBRA K RSBRA DOT VAR COMMA VarList {$6::$8}
 
 UpdateR:	
-	|P LSBRA K RSBRA DOT VAR ASSIGN Expr	{UpdateRule.Create($6,$8)}	
-	|VarList RELATE BExpr					{UpdateRule.CreateRelation($1,$3)}	
+	|P LSBRA K RSBRA DOT VAR ASSIGN Expr	{UpdateRule.Create($6,$8)}
+	|VarList RELATE BExpr					{UpdateRule.CreateRelation($1,$3)}

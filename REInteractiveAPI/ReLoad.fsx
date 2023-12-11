@@ -6,12 +6,15 @@
 #r "nuget:AutomaticGraphLayout.Drawing,1.1.9"
 #r "nuget:SixLabors.ImageSharp,1.0.1"
 #r "nuget:SixLabors.ImageSharp.Drawing,1.0.0-beta0010"
+#r "nuget:XPlot.Plotly,3.0.1"
+#r "nuget:Microsoft.DotNet.Interactive.Formatting, 1.0.0-beta.23606.2"
 
 #r @"bin/Release/netstandard2.0/ReasoningEngine.dll"
 #r @"bin/Release/netstandard2.0/REIN.dll"
 #r @"bin/Release/netstandard2.0/REInteractiveAPI.dll"
 
 open Microsoft.Research.RENotebook
+open Microsoft.DotNet.Interactive.Formatting
 
 type ReilAPI = Microsoft.Research.RENotebook.REIL
 type ReinAPI = Microsoft.Research.RENotebook.REIN
@@ -20,19 +23,23 @@ module Var = Microsoft.Research.ReasoningEngine.Var
 type TrajVis = Microsoft.Research.RENotebook.Lib.TrajectoryVisualization
 printfn "Loading the Reasoning Engine (RE)..."
 
-Formatter.Register<Microsoft.Research.RENotebook.Lib.PlotlyOutput>(
-    mimeType = "text/html",
-    formatter = Func<_,_,_,_>(fun context plotly (writer: TextWriter) ->
-        match plotly with
-        | Microsoft.Research.RENotebook.Lib.PlotlyOutput.Chart plot -> display(plot) |> ignore
-        | Microsoft.Research.RENotebook.Lib.PlotlyOutput.Message stuff -> display(stuff) |> ignore
-        true))
 
-Formatter.Register<Microsoft.Research.RENotebook.Lib.HtmlOutput>(
+Formatter.Register<Lib.PlotlyOutput>(
     mimeType = "text/html",
-    formatter = Func<_,_,_,_>(fun context htmlOutput (writer: TextWriter) ->
-        match htmlOutput with Microsoft.Research.RENotebook.Lib.HtmlOutput html -> display(HTML(html)) |> ignore
-        true))
+    formatter = fun plotly (context: FormatContext) ->
+        match plotly with
+        | Lib.PlotlyOutput.Chart plot -> context.Writer.Write(plot)
+        | Lib.PlotlyOutput.Message stuff -> context.Writer.Write(stuff)
+        true)
+
+
+
+Formatter.Register<Lib.HtmlOutput>(
+    mimeType = "text/html",
+    formatter = fun htmlOutput (context: FormatContext) ->
+        match htmlOutput with Lib.HtmlOutput html -> context.Writer.Write(html)
+        true)
+
 
 // Lists the required and disallowed interactions in a table
 let DrawInteractions required disallowed = 

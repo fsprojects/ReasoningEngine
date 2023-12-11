@@ -4,22 +4,22 @@ open Microsoft.Research.ReasoningEngine.Constraint
 open Microsoft.Research.ReasoningEngine.Var
 open System.Collections.Generic
 
-#indent "off"
+
 
 type Line = 
-	|Assign of string * BExpr
-	|Assert of BExpr  * string option	 //boolean expression * description	option
-	|Interaction of string * string * bool * bool //source * target * positive? * definite?
-	|Species of string * int list option * bool * bool * bool //name * allowed logics * KO? * FE? * must be activated
-	|Directive of Directive //possibly, create more structured directives
-	
+    |Assign of string * BExpr
+    |Assert of BExpr  * string option     //boolean expression * description    option
+    |Interaction of string * string * bool * bool //source * target * positive? * definite?
+    |Species of string * int list option * bool * bool * bool //name * allowed logics * KO? * FE? * must be activated
+    |Directive of Directive //possibly, create more structured directives
+    
 and Directive = 
-	|Uniqueness of Settings.Uniqueness
+    |Uniqueness of Settings.Uniqueness
     |Interaction_limit of int option
     |Regulation of Settings.RegulationConditions
     |Traj_length of int
-    |Updates of Settings.Updates		
-	|PreventRepeats
+    |Updates of Settings.Updates        
+    |PreventRepeats
 %}
 
 %start start

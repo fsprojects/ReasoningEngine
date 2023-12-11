@@ -9,15 +9,13 @@ open Var
 open Constraint
 open Dynamics
 
-#indent "off"
-
 type Line = 
-	|VarDecl of VarDef
-	|Assert of BExpr
-	|UpdateDecl of Update
+    |VarDecl of VarDef
+    |Assert of BExpr
+    |UpdateDecl of Update
 
 and Spec =
-	|Spec of Line list
+    |Spec of Line list
 
 # 22 "Parser.fs"
 // This type is the type of tokens accepted by the parser
@@ -894,7 +892,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 131 "Parser.fsy"
-                                                 _2		  
+                                                 _2
                    )
 # 131 "Parser.fsy"
                  : 'NExpr));
@@ -941,7 +939,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 135 "Parser.fsy"
-                                           Neg(_2)	  
+                                           Neg(_2)
                    )
 # 135 "Parser.fsy"
                  : 'NExpr));
@@ -952,7 +950,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 136 "Parser.fsy"
-                                       NTerm(_1)	  
+                                       NTerm(_1)
                    )
 # 136 "Parser.fsy"
                  : 'NExpr));
